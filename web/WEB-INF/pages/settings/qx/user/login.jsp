@@ -95,12 +95,54 @@
     </style>
     <script src="${pageContext.request.contextPath}/jquery/jquery-1.11.1-min.js"></script>
     <script src="${pageContext.request.contextPath}/jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/password.js"></script>
     <script>
         //入口函数
         $(function() {
-            $("#loginBtn").click(function() {
-                window.location.href = "${pageContext.request.contextPath}/workbench/index.html";
-            })
+            //给验证码链接添加单击事件
+            $("#code a[name='getCheckCode']").click(function () {
+                $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
+            });
+
+            //给登录按钮添加单击事件
+            $("#loginBtn").click(function () {
+                const username = $.trim($("#username").val());
+                let password = $.trim($("#password").val());
+                let checkCode = $.trim($("#code").val());
+                const isRemPwd = $("#isRemPwd").attr("checked");
+                if (username == ""){
+                    $("#msg").text("用户名不能为空!");
+                    return;
+                }else if (password == ""){
+                    $("#msg").text("密码不能");
+                    return;
+                }else if (checkCode == ""){
+                    $("#msg").text("验证码错误!");
+                    $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
+                    return;
+                }
+                password = md5(password);
+                checkCode = checkCode.toLocaleLowerCase();
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/settings/qx/user/login.do",
+                    data:{
+                        username:username,
+                        password:password,
+                        checkCode:checkCode,
+                        isRemPwd:isRemPwd
+                    },
+                    type:"post",
+                    dataType:"json",
+                    success:function (data) {
+                        if (data.code == "0"){
+                            alert(data.message);
+                            $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
+                        }else if (data.code == "1"){
+                            window.location.href = "${pageContext.request.contextPath}/workbench/index.do";
+                        }
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -128,20 +170,21 @@
             <form action="" class="form-horizontal" role="form" method="post">
                 <div class="form-group form-group-lg">
                     <div class="inputBox">
-                        <input type="text" class="form-control" id="username" placeholder="用户名">
+                        <input type="text" class="form-control" id="username" placeholder="用户名" maxlength="18">
                     </div>
                     <div class="inputBox">
-                        <input type="password" class="form-control" id="password" placeholder="密码">
+                        <input type="password" class="form-control" id="password" placeholder="密码" minlength="4" maxlength="18">
                     </div>
                     <div class="inputBox">
                         <input id="checkCode" class="form-control" type="text" style="border-radius: 5px;width: 40%;height: 40px;padding: 10px;padding-left: 16px;display:inline-block;" placeholder="验证码">
                         <span id="code" style="height: 50px;width:40%;background-color: #eee8d0;padding: 1px;">
-                            <a href="">1 2 3 4</a>
+                            <a name="getCheckCode"><img id="codeImg" style="width: 60px;height: 30px;" src="${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=1"></a>
+                            <a name="getCheckCode" style="font-size: 10px;">看不清？换一张</a>
                         </span>
                     </div>
                     <div class="checkBox">
-                        <label for="remberPassword">
-                                <input type="checkbox" id="remberPassword"> &nbsp;记住密码
+                        <label for="isRemPwd">
+                                <input type="checkbox" id="isRemPwd"> &nbsp;记住密码
                             </label>&nbsp;&nbsp;&nbsp;
                         <span id="msg"></span>
                     </div>

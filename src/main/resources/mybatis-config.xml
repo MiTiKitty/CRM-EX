@@ -7,7 +7,7 @@
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
     <typeAliases>
-        <package name="com.itCat.crmEX"/>
+        <package name="com.itCat.crmEX.settings.domain"/>
     </typeAliases>
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageHelper">
@@ -16,6 +16,6 @@
         </plugin>
     </plugins>
     <mappers>
-        <package name="com.itCat.crmEX"/>
+        <package name="com.itCat.crmEX.settings.mapper"/>
     </mappers>
 </configuration>

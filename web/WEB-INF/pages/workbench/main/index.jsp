@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <link href="../../jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="../../jquery/jquery-1.11.1-min.js"></script>
-    <script type="text/javascript" src="../../jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../jquery/echars/echarts.min.js" charset="utf-8"></script>
+    <link href="${pageContext.request.contextPath}/jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="${pageContext.request.contextPath}/jquery/jquery-1.11.1-min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/jquery/echars/echarts.min.js" charset="utf-8"></script>
 
     <script type="text/javascript">
         $(function() {
@@ -130,7 +130,7 @@
                         },
                         itemStyle: {
                             normal: {
-                                opacity: 08, // 系列2图形透明度
+                                opacity: 0.8, // 系列2图形透明度
                                 borderColor: '#fff', // 图形边框颜色
                                 borderWidth: 3 // 图形边框宽度大小
                             }
@@ -167,7 +167,7 @@
 
 <body>
 
-    <img src="../../image/home.png" style="position: relative;top: -10px; padding-left: 10px;" />
+    <img src="${pageContext.request.contextPath}/image/home.png" style="position: relative;top: -10px; padding-left: 10px;" />
 
     <div id="chart1" style="width:800px;height:400px;"></div>
 </body>

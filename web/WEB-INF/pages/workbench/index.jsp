@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <link href="../jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 
     <style>
         * {
@@ -61,8 +61,8 @@
             border-radius: 20px;
         }
     </style>
-    <script type="text/javascript" src="../jquery/jquery-1.11.1-min.js"></script>
-    <script type="text/javascript" src="../jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/jquery/jquery-1.11.1-min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         //设置全局菜单列表显示还是图标显示
         let listMenu = true;
@@ -92,7 +92,7 @@
             });
 
 
-            window.open("main/index.html", "workareaFrame");
+            window.open("${pageContext.request.contextPath}/workbench/main/index.do", "workAreaFrame");
 
             //收缩菜单功能
             $("#menu").click(function() {
@@ -130,12 +130,12 @@
                 </div>
                 <div class="modal-body">
                     <div style="position: relative; left: 40px;">
-                        姓名：<b>张三</b><br><br> 登录帐号：
-                        <b>zhangsan</b><br><br> 组织机构：
+                        姓名：<b>${sessionScope.sessionUser.name}</b><br><br> 登录帐号：
+                        <b>${sessionScope.sessionUser.username}</b><br><br> 组织机构：
                         <b>1005，市场部，二级部门</b><br><br> 邮箱：
-                        <b>zhangsan@bjpowernode.com</b><br><br> 失效时间：
-                        <b>2017-02-14 10:10:10</b><br><br> 允许访问IP：
-                        <b>127.0.0.1,192.168.100.2</b>
+                        <b>${sessionScope.sessionUser.email}</b><br><br> 失效时间：
+                        <b>${sessionScope.sessionUser.expireTime}</b><br><br> 允许访问IP：
+                        <b>${sessionScope.sessionUser.allowIps}</b>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -160,21 +160,21 @@
                         <div class="form-group">
                             <label for="oldPwd" class="col-sm-2 control-label">原密码</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="oldPwd" style="width: 200%;">
+                                <input type="password" class="form-control" id="oldPwd" style="width: 200%;">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="newPwd" class="col-sm-2 control-label">新密码</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="newPwd" style="width: 200%;">
+                                <input type="password" class="form-control" id="newPwd" style="width: 200%;">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="confirmPwd" class="col-sm-2 control-label">确认密码</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="confirmPwd" style="width: 200%;">
+                                <input type="password" class="form-control" id="confirmPwd" style="width: 200%;">
                             </div>
                         </div>
                     </form>
@@ -228,10 +228,10 @@
             <ul>
                 <li class="dropdown user-dropdown">
                     <a href="javascript:void(0)" style="text-decoration: none;color: white;" class="dropdown-toggle" data-toggle="dropdown">
-                        <img class="user-img" src="../image/猫5.jpg"> username <span class="caret"></span>
+                        <img class="user-img" src="${pageContext.request.contextPath}/image/猫5.jpg"> username <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" style="min-width: 150px;">
-                        <li><a href="../settings/index.html"><span class="glyphicon glyphicon-wrench"></span> 系统设置</a></li>
+                        <li><a href="javascript:void(0)"><span class="glyphicon glyphicon-wrench"></span> 系统设置</a></li>
                         <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myInformation"><span class="glyphicon glyphicon-file"></span> 我的资料</a></li>
                         <li><a href="javascript:void(0)" data-toggle="modal" data-target="#editPwdModal"><span class="glyphicon glyphicon-edit"></span> 修改密码</a></li>
                         <li><a href="javascript:void(0);" data-toggle="modal" data-target="#exitModal"><span class="glyphicon glyphicon-off"></span> 退出</a></li>
@@ -248,31 +248,31 @@
         <div id="navigation" style="left: 0px; position: relative; width: 18%; height: 100%; overflow:auto;">
 
             <ul id="no1" class="nav nav-pills nav-stacked">
-                <li class="liClass"><a href="main/index.html" target="workareaFrame"><span class="glyphicon glyphicon-home"></span><span name="listname"> 工作台</span></a></li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-tag"></span><span name="listname"> 动态</span></a></li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-time"></span><span name="listname"> 审批</span></a></li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-user"></span><span name="listname"> 客户公海</span></a></li>
-                <li class="liClass"><a href="activity/index.html" target="workareaFrame"><span class="glyphicon glyphicon-play-circle"></span><span name="listname"> 市场活动</span></a></li>
-                <li class="liClass"><a href="clue/index.html" target="workareaFrame"><span class="glyphicon glyphicon-search"></span><span name="listname"> 线索（潜在客户）</span></a></li>
-                <li class="liClass"><a href="customer/index.html" target="workareaFrame"><span class="glyphicon glyphicon-user"></span><span name="listname"> 客户</span></a></li>
-                <li class="liClass"><a href="contacts/index.html" target="workareaFrame"><span class="glyphicon glyphicon-earphone"></span><span name="listname"> 联系人</span></a></li>
-                <li class="liClass"><a href="transaction/index.html" target="workareaFrame"><span class="glyphicon glyphicon-usd"></span><span name="listname"> 交易（商机）</span></a></li>
-                <li class="liClass"><a href="visit/index.html" target="workareaFrame"><span class="glyphicon glyphicon-phone-alt"></span><span name="listname"> 售后回访</span></a></li>
+                <li class="liClass"><a href="main/index.jsp" target="workAreaFrame"><span class="glyphicon glyphicon-home"></span><span name="listname"> 工作台</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-tag"></span><span name="listname"> 动态</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-time"></span><span name="listname"> 审批</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-user"></span><span name="listname"> 客户公海</span></a></li>
+                <li class="liClass"><a href="activity/index.html" target="workAreaFrame"><span class="glyphicon glyphicon-play-circle"></span><span name="listname"> 市场活动</span></a></li>
+                <li class="liClass"><a href="clue/index.html" target="workAreaFrame"><span class="glyphicon glyphicon-search"></span><span name="listname"> 线索（潜在客户）</span></a></li>
+                <li class="liClass"><a href="customer/index.html" target="workAreaFrame"><span class="glyphicon glyphicon-user"></span><span name="listname"> 客户</span></a></li>
+                <li class="liClass"><a href="contacts/index.html" target="workAreaFrame"><span class="glyphicon glyphicon-earphone"></span><span name="listname"> 联系人</span></a></li>
+                <li class="liClass"><a href="transaction/index.html" target="workAreaFrame"><span class="glyphicon glyphicon-usd"></span><span name="listname"> 交易（商机）</span></a></li>
+                <li class="liClass"><a href="visit/index.html" target="workAreaFrame"><span class="glyphicon glyphicon-phone-alt"></span><span name="listname"> 售后回访</span></a></li>
                 <li class="liClass">
                     <a href="#no2" class="collapsed" data-toggle="collapse"><span class="glyphicon glyphicon-stats"></span><span name="listname"> 统计图表</span></a>
                     <ul id="no2" class="nav nav-pills nav-stacked collapse">
-                        <li class="liClass"><a href="chart/activity/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 市场活动统计图表</span></a></li>
-                        <li class="liClass"><a href="chart/clue/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 线索统计图表</span></a></li>
-                        <li class="liClass"><a href="chart/customerAndContacts/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 客户和联系人统计图表</span></a></li>
-                        <li class="liClass"><a href="chart/transaction/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 交易统计图表</span></a></li>
+                        <li class="liClass"><a href="chart/activity/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 市场活动统计图表</span></a></li>
+                        <li class="liClass"><a href="chart/clue/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 线索统计图表</span></a></li>
+                        <li class="liClass"><a href="chart/customerAndContacts/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 客户和联系人统计图表</span></a></li>
+                        <li class="liClass"><a href="chart/transaction/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 交易统计图表</span></a></li>
                     </ul>
                 </li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-file"></span><span name="listname"> 报表</span></a></li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-shopping-cart"></span><span name="listname"> 销售订单</span></a></li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-send"></span><span name="listname"> 发货单</span></a></li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-earphone"></span><span name="listname"> 跟进</span></a></li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-leaf"></span><span name="listname"> 产品</span></a></li>
-                <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span class="glyphicon glyphicon-usd"></span><span name="listname"> 报价</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-file"></span><span name="listname"> 报表</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-shopping-cart"></span><span name="listname"> 销售订单</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-send"></span><span name="listname"> 发货单</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-earphone"></span><span name="listname"> 跟进</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-leaf"></span><span name="listname"> 产品</span></a></li>
+                <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span class="glyphicon glyphicon-usd"></span><span name="listname"> 报价</span></a></li>
             </ul>
 
             <!-- 分割线 -->
@@ -281,7 +281,7 @@
 
         <!-- 工作区 -->
         <div id="workarea" style="position: absolute; top : 0px; left: 18%; width: 82%; height: 100%;">
-            <iframe style="border-width: 0px; width: 100%; height: 100%;" name="workareaFrame"></iframe>
+            <iframe style="border-width: 0px; width: 100%; height: 100%;" name="workAreaFrame"></iframe>
         </div>
 
     </div>
