@@ -49,7 +49,7 @@
             <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="remove*" propagation="REQUIRED" />
             <tx:method name="edit*" propagation="REQUIRED" />
-            <tx:method name="query*" read-only="true"/>
+            <tx:method name="query*" propagation="REQUIRED" read-only="true"/>
             <tx:method name="*" rollback-for="Exception" />
         </tx:attributes>
     </tx:advice>

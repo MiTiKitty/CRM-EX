@@ -18,4 +18,15 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectUserByUsernameAndPassword(map);
     }
 
+    public User queryUserById(String id) {
+        return userMapper.selectUserById(id);
+    }
+
+    public int editUserPasswordById(Map<String, Object> map) {
+        return userMapper.updateUserPasswordById(map);
+    }
+
+    public int saveNewUser(User user) {
+        return userMapper.insertNewUser(user);
+    }
 }

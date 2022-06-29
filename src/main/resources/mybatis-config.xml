@@ -6,16 +6,16 @@
     <settings>
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
-    <typeAliases>
+    <!--<typeAliases>
         <package name="com.itCat.crmEX.settings.domain"/>
-    </typeAliases>
+    </typeAliases>-->
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageHelper">
             <!--设置方言-->
             <property name="dialect" value="mysql"/>
         </plugin>
     </plugins>
-    <mappers>
+    <!--<mappers>
         <package name="com.itCat.crmEX.settings.mapper"/>
-    </mappers>
+    </mappers>-->
 </configuration>

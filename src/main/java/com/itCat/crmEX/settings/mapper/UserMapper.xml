@@ -4,6 +4,26 @@
     <select id="selectUserByUsernameAndPassword" parameterType="java.util.Map" resultType="com.itCat.crmEX.settings.domain.User">
         select id, username, name, password, email, phone, expireTime, lockStatus, allowIps, createBy, createTime, editBy, editTime
         from `tbl_user`
-        where username = #{username} and password = #{password}
+        where `username` = #{username} and `password` = #{password}
+    </select>
+    <select id="selectUserById" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.User">
+        select id, username, name, password, email, phone, expireTime, lockStatus, allowIps, createBy, createTime, editBy, editTime
+        from `tbl_user`
+        where id = #{id}
+    </select>
+    <update id="updateUserPasswordById" parameterType="java.util.Map">
+        update `tbl_user` set password = #{password} where id = #{id}
+    </update>
+    <insert id="insertNewUser" parameterType="com.itCat.crmEX.settings.domain.User">
+        insert into `tbl_user`
+            (id, username, name, password,
+             email, phone, expireTime, lockStatus,
+             allowIps, createBy, createTime)
+        values (#{id}, #{username}, #{name}, #{password},
+                #{email}, #{phone}, #{expireTime}, #{lockStatus},
+                #{allowIps}, #{createBy}, #{createTime})
+    </insert>
+    <select id="selectUsersByPageSize" resultType="com.itCat.crmEX.settings.domain.User">
+
     </select>
 </mapper>

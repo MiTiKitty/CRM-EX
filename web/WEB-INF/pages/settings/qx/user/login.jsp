@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 
 <head>
@@ -99,6 +100,7 @@
     <script>
         //入口函数
         $(function() {
+
             //给验证码链接添加单击事件
             $("#code a[name='getCheckCode']").click(function () {
                 $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
@@ -108,15 +110,18 @@
             $("#loginBtn").click(function () {
                 const username = $.trim($("#username").val());
                 let password = $.trim($("#password").val());
-                let checkCode = $.trim($("#code").val());
+                let checkCode = $.trim($("#checkCode").val());
                 const isRemPwd = $("#isRemPwd").attr("checked");
                 if (username == ""){
+                    $("#msg").css("color", "red");
                     $("#msg").text("用户名不能为空!");
                     return;
                 }else if (password == ""){
-                    $("#msg").text("密码不能");
+                    $("#msg").css("color", "red");
+                    $("#msg").text("密码不能为空");
                     return;
                 }else if (checkCode == ""){
+                    $("#msg").css("color", "red");
                     $("#msg").text("验证码错误!");
                     $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
                     return;
@@ -138,10 +143,19 @@
                             alert(data.message);
                             $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
                         }else if (data.code == "1"){
+                            $("#msg").css("color", "green");
+                            $("#msg").text("正在登陆，请稍后...");
                             window.location.href = "${pageContext.request.contextPath}/workbench/index.do";
                         }
                     }
                 });
+            });
+
+            //添加全局按下确认键事件
+            $(window).keydown(function (e) {
+                if (e.keyCode == 13){
+                    $("#loginBtn").click();
+                }
             });
         });
     </script>
@@ -170,10 +184,10 @@
             <form action="" class="form-horizontal" role="form" method="post">
                 <div class="form-group form-group-lg">
                     <div class="inputBox">
-                        <input type="text" class="form-control" id="username" placeholder="用户名" maxlength="18">
+                        <input type="text" class="form-control" id="username" placeholder="用户名" maxlength="18" value="${cookie.get("username").value}" >
                     </div>
                     <div class="inputBox">
-                        <input type="password" class="form-control" id="password" placeholder="密码" minlength="4" maxlength="18">
+                        <input type="password" class="form-control" id="password" placeholder="密码" minlength="4" value="${cookie.get("password").value}" maxlength="18">
                     </div>
                     <div class="inputBox">
                         <input id="checkCode" class="form-control" type="text" style="border-radius: 5px;width: 40%;height: 40px;padding: 10px;padding-left: 16px;display:inline-block;" placeholder="验证码">
@@ -184,9 +198,13 @@
                     </div>
                     <div class="checkBox">
                         <label for="isRemPwd">
-                                <input type="checkbox" id="isRemPwd"> &nbsp;记住密码
+                                <input type="checkbox" id="isRemPwd"
+                                <c:if test="${not empty(cookie.get('username').value) and not empty(cookie.get('password').value)}">
+                                    checked
+                                </c:if>
+                                > &nbsp;记住密码
                             </label>&nbsp;&nbsp;&nbsp;
-                        <span id="msg"></span>
+                        <span id="msg" style="font-size: 14px;"></span>
                     </div>
                     <div class="inputBox">
                         <input id="loginBtn" type="button" class="btn btn-primary btn-lg btn-block login" value="登录">
