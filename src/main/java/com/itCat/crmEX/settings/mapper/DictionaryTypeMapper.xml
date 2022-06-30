@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.settings.mapper.DictionaryTypeMapper">
+    <select id="selectAllDictionaryType" resultType="com.itCat.crmEX.settings.domain.DictionaryType">
+        select `code`, `name`, `description`
+        from `tbl_dictionary_type`
+        order by `code` desc
+    </select>
+    <select id="selectDictionaryTypeByCode" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.DictionaryType">
+        select `code`, `name`, `description`
+        from `tbl_dictionary_type`
+        where `code` = #{code}
+    </select>
+    <insert id="insertNewDictionaryType" parameterType="com.itCat.crmEX.settings.domain.DictionaryType">
+        insert into `tbl_dictionary_type` (code, name, description)
+        values (#{code}, #{name}, #{description})
+    </insert>
+    <update id="updateDictionaryTypeByCode" parameterType="java.util.Map">
+        update `tbl_dictionary_type`
+        set `code` = #{newCode},
+            `name` = #{name},
+            `description` = #{description}
+        where `code` = #{oldCode}
+    </update>
+    <delete id="deleteDictionaryTypeByCodes" parameterType="java.lang.String">
+        delete from `tbl_dictionary_type`
+        where `code` in
+        <foreach collection="array" item="code" separator="," open="(" close=")">
+            #{code}
+        </foreach>
+    </delete>
+</mapper>

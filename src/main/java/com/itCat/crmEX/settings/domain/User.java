@@ -1,19 +1,30 @@
 package com.itCat.crmEX.settings.domain;
 
 public class User {
-
     private String id;
+
     private String username;
+
     private String name;
+
     private String password;
+
     private String email;
+
     private String phone;
+
     private String expireTime;
+
     private String lockStatus;
+
     private String allowIps;
+
     private String createBy;
+
     private String createTime;
+
     private String editBy;
+
     private String editTime;
 
     public User(){}

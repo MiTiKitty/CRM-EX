@@ -98,9 +98,14 @@
     <script src="${pageContext.request.contextPath}/jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/password.js"></script>
     <script>
+        let isP = false;
         //入口函数
         $(function() {
 
+            if ("${cookie.get("password").value}" != ""){
+                $("#password").val("********");
+                isP = true;
+            }
             //给验证码链接添加单击事件
             $("#code a[name='getCheckCode']").click(function () {
                 $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
@@ -111,7 +116,7 @@
                 const username = $.trim($("#username").val());
                 let password = $.trim($("#password").val());
                 let checkCode = $.trim($("#checkCode").val());
-                const isRemPwd = $("#isRemPwd").attr("checked");
+                const isRemPwd = $("#isRemPwd").prop("checked");
                 if (username == ""){
                     $("#msg").css("color", "red");
                     $("#msg").text("用户名不能为空!");
@@ -126,7 +131,11 @@
                     $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
                     return;
                 }
-                password = md5(password);
+                if (isP){
+                    password = "${cookie.get("password").value}"
+                }else {
+                    password = md5(password);
+                }
                 checkCode = checkCode.toLocaleLowerCase();
                 $.ajax({
                     url:"${pageContext.request.contextPath}/settings/qx/user/login.do",
@@ -187,7 +196,7 @@
                         <input type="text" class="form-control" id="username" placeholder="用户名" maxlength="18" value="${cookie.get("username").value}" >
                     </div>
                     <div class="inputBox">
-                        <input type="password" class="form-control" id="password" placeholder="密码" minlength="4" value="${cookie.get("password").value}" maxlength="18">
+                        <input type="password" class="form-control" id="password" placeholder="密码" minlength="4" maxlength="18">
                     </div>
                     <div class="inputBox">
                         <input id="checkCode" class="form-control" type="text" style="border-radius: 5px;width: 40%;height: 40px;padding: 10px;padding-left: 16px;display:inline-block;" placeholder="验证码">

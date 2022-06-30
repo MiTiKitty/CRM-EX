@@ -118,13 +118,13 @@
                 let newPassword = $.trim($(this).val());
                 let confirmPassword = $.trim($(this).val());
                 if (confirmPassword != newPassword) {
-                    $("#newPasswordMsg").css("color", "red");
-                    $("#newPasswordMsg").html("前后密码不一致");
-                    $("#newPwdCheck").attr("checked", false);
+                    $("#confirmPasswordMsg").css("color", "red");
+                    $("#confirmPasswordMsg").html("前后密码不一致");
+                    $("#confirmPwdCheck").attr("checked", false);
                 } else {
-                    $("#newPasswordMsg").css("color", "green");
-                    $("#newPasswordMsg").html("✓");
-                    $("#newPwdCheck").attr("checked", true);
+                    $("#confirmPasswordMsg").css("color", "green");
+                    $("#confirmPasswordMsg").html("✓");
+                    $("#confirmPwdCheck").attr("checked", true);
                 }
             });
 
@@ -359,7 +359,7 @@
         <div style="position: relative; width: 34%; height: 50%; left: 66%; top: -200%">
             数据管理
             <br><br>
-            <a href="dictionary/index.html">数据字典表</a>
+            <a href="${pageContext.request.contextPath}/settings/dictionary/index.do">数据字典表</a>
             <br>
             <a href="javascript:void(0);">导入</a>
             <br>

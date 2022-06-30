@@ -180,21 +180,21 @@
                 let newPassword = $.trim($(this).val());
                 let confirmPassword = $.trim($(this).val());
                 if (confirmPassword != newPassword) {
-                    $("#newPasswordMsg").css("color", "red");
-                    $("#newPasswordMsg").html("前后密码不一致");
-                    $("#newPwdCheck").attr("checked", false);
+                    $("#confirmPasswordMsg").css("color", "red");
+                    $("#confirmPasswordMsg").html("前后密码不一致");
+                    $("#confirmPwdCheck").attr("checked", false);
                 } else {
-                    $("#newPasswordMsg").css("color", "green");
-                    $("#newPasswordMsg").html("✓");
-                    $("#newPwdCheck").attr("checked", true);
+                    $("#confirmPasswordMsg").css("color", "green");
+                    $("#confirmPasswordMsg").html("✓");
+                    $("#confirmPwdCheck").attr("checked", true);
                 }
             });
 
             //给确定修改密码添加单击事件
             $("#submitEditPwdBtn").click(function () {
-                const isOld = $("#oldPwdCheck").attr("checked");
-                const isNew = $("#newPwdCheck").attr("checked");
-                const isConfirm = $("#confirmPwdCheck").attr("checked");
+                const isOld = $("#oldPwdCheck").prop("checked");
+                const isNew = $("#newPwdCheck").prop("checked");
+                const isConfirm = $("#confirmPwdCheck").prop("checked");
                 if (!isOld || !isNew || !isConfirm) {
                     return;
                 }
@@ -213,7 +213,7 @@
                         if (data.code == "0") {
                             alert(data.message);
                         } else if (data.code == "1") {
-                            window.location.href = "${pageContext.request.contextPath}/settings/toLogin.do"
+                            window.location.href = "${pageContext.request.contextPath}/settings/qx/user/toLogin.do"
                         }
                     }
                 });
