@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.settings.mapper.DictionaryValueMapper">
+    <select id="selectAllDictionaryValue" resultType="com.itCat.crmEX.settings.domain.DictionaryValue">
+        select `id`, `value`, `text`, `orderNo`, `typeCode`
+        from `tbl_dictionary_value`
+        order by `typeCode` desc, `orderNo` desc
+    </select>
+    <select id="selectDictionaryValueByTypeCodeAndValue" parameterType="java.util.Map" resultType="com.itCat.crmEX.settings.domain.DictionaryValue">
+        select `id`, `value`, `text`, `orderNo`, `typeCode`
+        from `tbl_dictionary_value`
+        where `typeCode` = #{typeCode} and `value` = #{value}
+    </select>
+    <select id="selectDictionaryValueById" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.DictionaryValue">
+        select `id`, `value`, `text`, `orderNo`, `typeCode`
+        from `tbl_dictionary_value`
+        where `id` = #{id}
+    </select>
+    <insert id="insertNewDictionaryValue" parameterType="com.itCat.crmEX.settings.domain.DictionaryValue">
+        insert into `tbl_dictionary_value` (`id`, `value`, `text`, `orderNo`, `typeCode`)
+        values (#{id}, #{value}, #{text}, #{orderNo}, #{typeCode});
+    </insert>
+    <update id="updateDictionaryValue" parameterType="com.itCat.crmEX.settings.domain.DictionaryValue">
+        update `tbl_dictionary_value`
+        set `value` = #{value},
+            `text` = #{text},
+            `orderNo` = #{orderNo}
+        where `id` = #{id}
+    </update>
+    <update id="updateDictionaryValueTypeCodeByTypeCode" parameterType="java.util.Map">
+        update `tbl_dictionary_value`
+        set `typeCode` = #{newCode}
+        where `typeCode` = #{oldCode}
+    </update>
+    <delete id="deleteDictionaryValueByIds" parameterType="java.lang.String">
+        delete from `tbl_dictionary_value` where `id` in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteDictionaryValueByTypeCodes" parameterType="java.lang.String">
+        delete from `tbl_dictionary_value` where `typeCode` in
+        <foreach collection="array" open="(" close=")" separator="," item="typeCode">
+            #{typeCode}
+        </foreach>
+    </delete>
+</mapper>

@@ -13,7 +13,7 @@ public interface DictionaryTypeService {
 
     int saveNewDictionaryType(DictionaryType dictionaryType);
 
-    int editDictionaryTypeByCode(Map<String, Object> map);
+    void editDictionaryTypeByCode(Map<String, Object> map);
 
     void removeDictionaryTypeByCodes(String[] codes);
 }

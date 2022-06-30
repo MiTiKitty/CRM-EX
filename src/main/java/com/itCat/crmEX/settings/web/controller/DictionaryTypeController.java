@@ -104,13 +104,8 @@ public class DictionaryTypeController {
         map.put("name", name);
         map.put("description", description);
         try {
-            int result = dictionaryTypeService.editDictionaryTypeByCode(map);
-            if (result > 0){
-                resultObject.setCode(Constants.RESULT_SUCCESS_CODE);
-            }else {
-                resultObject.setCode(Constants.RESULT_FAIL_CODE);
-                resultObject.setMessage("系统繁忙，请稍后重试...");
-            }
+            dictionaryTypeService.editDictionaryTypeByCode(map);
+            resultObject.setCode(Constants.RESULT_SUCCESS_CODE);
         } catch (Exception e){
             e.printStackTrace();
             resultObject.setCode(Constants.RESULT_FAIL_CODE);

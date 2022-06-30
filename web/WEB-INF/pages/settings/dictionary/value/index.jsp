@@ -11,21 +11,21 @@
 
     <script type="text/javascript">
         $(function () {
-            //给创建按钮添加单机事件
+            //给创建按钮添加单击事件
             $("#createBtn").click(function () {
-                window.location.href = "${pageContext.request.contextPath}/settings/dictionary/type/create.do";
+                window.location.href = "${pageContext.request.contextPath}/settings/dictionary/value/create.do";
             });
 
             //给全选按钮添加单击事件
             $("#allSelectBox").click(function () {
                 const isCheck = $(this).prop("checked");
-                $("#typeList input[type='checkbox']").prop("checked", isCheck);
+                $("#valueList input[type='checkbox']").prop("checked", isCheck);
             });
 
             //给单个选择按钮添加单击事件
-            $("#typeList").on("click", "input[type='checkbox']", function () {
-                const checkedSize = $("#typeList input[type='checkbox']:checked").size();
-                const allSize = $("#typeList input[type='checkbox']").size();
+            $("#valueList").on("click", "input[type='checkbox']", function () {
+                const checkedSize = $("#valueList input[type='checkbox']:checked").size();
+                const allSize = $("#valueList input[type='checkbox']").size();
                 if (checkedSize == allSize){
                     $("#allSelectBox").prop("checked", true);
                 }else {
@@ -33,42 +33,42 @@
                 }
             });
 
-            //给编辑按钮添加单击事件
+            //给修改按钮添加单击事件
             $("#editBtn").click(function () {
-                const checker = $("#typeList input[type='checkbox']:checked");
-                if (checker.length > 1 || checker.length == 0){
-                    alert("只能选中一个进行编辑!");
+                const value = $("#valueList input[type='checkbox']:checked");
+                if (value.length == 0 || value.length > 1){
+                    alert("只能选择一个进行修改!");
                     return;
                 }
-                const code = checker[0].value;
-                window.location.href = "${pageContext.request.contextPath}/settings/dictionary/type/edit.do?code=" + code;
+                const id = value[0].value;
+                window.location.href = "${pageContext.request.contextPath}/settings/dictionary/value/edit.do?id=" + id;
             });
 
             //给删除按钮添加单击事件
             $("#removeBtn").click(function () {
-                const checker = $("#typeList input[type='checkbox']:checked");
+                const checker = $("#valueList input[type='checkbox']:checked");
                 if (checker.length == 0){
                     alert("至少选择一个进行删除!");
                     return;
                 }
-                let code = new Array();
+                let id = new Array();
                 for (let i = 0; i < checker.length; i++) {
-                    code.push(checker[i].value);
+                    id.push(checker[i].value);
                 }
                 if (window.confirm("确定要删除吗?")){
                     $.ajax({
-                        url:"${pageContext.request.contextPath}/settings/dictionary/type/removeDictionaryType.do",
+                        url:"${pageContext.request.contextPath}/settings/dictionary/value/removeDictionaryValue.do",
                         data:{
-                            code:code
+                            id:id
                         },
                         type:"post",
                         dataType:"json",
-                        traditional:true,
+                        traditional: true,
                         success:function (data) {
                             if (data.code == "0"){
                                 alert(data.message);
                             }else if (data.code == "1"){
-                                window.location.href = "${pageContext.request.contextPath}/settings/dictionary/type/index.do";
+                                window.location.href = "${pageContext.request.contextPath}/settings/dictionary/value/index.do";
                             }
                         }
                     });
@@ -84,7 +84,7 @@
     <div>
         <div style="position: relative; margin-left: 30px; top: -10px;">
             <div class="page-header">
-                <h3>字典类型列表</h3>
+                <h3>字典值列表</h3>
             </div>
         </div>
     </div>
@@ -101,21 +101,23 @@
                 <tr style="color: #B3B3B3;">
                     <td><input id="allSelectBox" type="checkbox" /></td>
                     <td>序号</td>
-                    <td>编码</td>
-                    <td>名称</td>
-                    <td>描述</td>
+                    <td>字典值</td>
+                    <td>文本</td>
+                    <td>排序号</td>
+                    <td>字典类型编码</td>
                 </tr>
             </thead>
-            <tbody id="typeList">
-            <c:forEach items="${requestScope.dictionaryTypeList}" var="type" varStatus="v">
-                <tr class="active">
-                    <td><input type="checkbox" value="${type.code}"/></td>
-                    <td>${v.index + 1}</td>
-                    <td>${type.code}</td>
-                    <td>${type.name}</td>
-                    <td>${type.description}</td>
-                </tr>
-            </c:forEach>
+            <tbody id="valueList">
+                <c:forEach items="${requestScope.dictionaryValueList}" var="value" varStatus="v">
+                    <tr class="active">
+                        <td><input type="checkbox" value="${value.id}" /></td>
+                        <td>${v.index + 1}</td>
+                        <td>${value.value}</td>
+                        <td>${value.text}</td>
+                        <td>${value.orderNo}</td>
+                        <td>${value.typeCode}</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>
