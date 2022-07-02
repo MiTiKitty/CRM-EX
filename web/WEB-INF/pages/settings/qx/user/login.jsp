@@ -99,16 +99,23 @@
     <script src="${pageContext.request.contextPath}/js/password.js"></script>
     <script>
         let isP = false;
+
         //入口函数
         $(function() {
+
+            //给验证码链接添加单击事件
+            $("#code a[name='getCheckCode']").click(function () {
+                $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
+            });
 
             if ("${cookie.get("password").value}" != ""){
                 $("#password").val("********");
                 isP = true;
             }
-            //给验证码链接添加单击事件
-            $("#code a[name='getCheckCode']").click(function () {
-                $("#codeImg").attr("src", "${pageContext.request.contextPath}/settings/qx/user/getCheckCode.do?timeTemp=" + new Date().getTime());
+
+            //修复记住密码，而密码不一致导致的用户登录问题
+            $("#password").change(function () {
+                isP = false;
             });
 
             //给登录按钮添加单击事件

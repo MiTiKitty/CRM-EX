@@ -321,7 +321,7 @@
             <br><br>
             <a href="" style="text-decoration: none; color: red;">组织机构</a>
             <br>
-            <a href="">部门管理</a>
+            <a href="${pageContext.request.contextPath}/settings/department/index.do">部门管理</a>
             <br>
             <a href="${pageContext.request.contextPath}/settings/qx/index.do">权限管理</a>
         </div>

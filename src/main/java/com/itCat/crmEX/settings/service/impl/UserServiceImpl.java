@@ -6,6 +6,7 @@ import com.itCat.crmEX.settings.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service("userService")
@@ -13,6 +14,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public List<User> queryAllUserForOption() {
+        return userMapper.selectAllUserForOption();
+    }
 
     public User queryUserByUsernameAndPassword(Map<String, Object> map) {
         return userMapper.selectUserByUsernameAndPassword(map);

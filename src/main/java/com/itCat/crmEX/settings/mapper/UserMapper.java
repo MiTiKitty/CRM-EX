@@ -8,6 +8,12 @@ import java.util.Map;
 public interface UserMapper {
 
     /**
+     * 查找所有的用户供选择使用
+     * @return
+     */
+    List<User> selectAllUserForOption();
+
+    /**
      * 根据用户名和密码查询用户
      * @param map
      * @return

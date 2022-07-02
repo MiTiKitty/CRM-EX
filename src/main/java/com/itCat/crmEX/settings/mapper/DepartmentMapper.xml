@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.settings.mapper.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.itCat.crmEX.settings.domain.Department">
+        <id property="id" column="id"/>
+        <result column="number" property="number" />
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="phone" property="phone" />
+        <association property="manager" javaType="com.itCat.crmEX.settings.domain.User">
+            <id column="managerId" property="id"/>
+            <result column="managerName" property="name"/>
+        </association>
+    </resultMap>
+    <select id="selectAllDepartment" resultMap="BaseResultMap">
+        select td.id as id, number, td.name as name, tu.id as managerId, tu.name as managerName, description, td.phone as phone
+        from `tbl_department` td
+        left outer join `tbl_user` tu on tu.id = td.manager
+        order by number asc
+    </select>
+    <select id="selectDepartmentByNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select td.id as id, number, td.name as name, tu.id as managerId, tu.name as managerName, description, td.phone as phone
+        from `tbl_department` td
+        left outer join `tbl_user` tu on tu.id = td.manager
+        where td.number = #{number}
+    </select>
+    <select id="selectDepartmentById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select td.id as id, number, td.name as name, tu.id as managerId, tu.name as managerName, description, td.phone as phone
+        from `tbl_department` td
+        left outer join `tbl_user` tu on tu.id = td.manager
+        where td.id = #{id}
+    </select>
+    <insert id="insertDepartment" parameterType="com.itCat.crmEX.settings.domain.Department">
+        insert into `tbl_department`
+        (id, number, name, manager, description, phone)
+        values (#{id}, #{number}, #{name}, #{manager.id}, #{description}, #{phone})
+    </insert>
+    <update id="updateDepartmentById" parameterType="com.itCat.crmEX.settings.domain.Department">
+        update `tbl_department`
+        set `number` = #{number},
+            `name` = #{name},
+            `manager` = #{manager.id},
+            `description` = #{description},
+            `phone` = #{phone}
+        where `id` = #{id}
+    </update>
+    <delete id="deleteDepartmentByIds" parameterType="java.lang.String">
+        delete from `tbl_department`
+        where `id` in
+        <foreach collection="array" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
