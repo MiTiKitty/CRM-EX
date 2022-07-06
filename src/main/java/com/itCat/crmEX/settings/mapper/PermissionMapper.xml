@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.settings.mapper.PermissionMapper">
+    <select id="selectAllPermission" resultType="com.itCat.crmEX.settings.domain.Permission">
+        select id, pid, name
+        from `tbl_permission`
+        order by orderNo asc
+    </select>
+    <select id="selectPermissionForDetailById" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.Permission">
+        select id, pid, name, moduleUrl, operUrl, orderNo
+        from `tbl_permission`
+        where id = #{id}
+    </select>
+    <select id="selectPermissionIdsByPid" parameterType="java.lang.String" resultType="java.lang.String">
+        select id
+        from `tbl_permission`
+        where pid = #{pid}
+    </select>
+    <insert id="insertPermission" parameterType="com.itCat.crmEX.settings.domain.Permission">
+        insert into `tbl_permission`
+        (id, pid, name, moduleUrl, operUrl, orderNo)
+        values
+        (#{id}, #{pid}, #{name}, #{moduleUrl}, #{operUrl}, #{orderNo})
+    </insert>
+    <update id="updatePermissionById" parameterType="com.itCat.crmEX.settings.domain.Permission">
+        update `tbl_permission`
+        set name = #{name},
+            moduleUrl = #{moduleUrl},
+            operUrl = #{operUrl},
+            orderNo = #{orderNo}
+        where id = #{id}
+    </update>
+    <delete id="deletePermissionById" parameterType="java.lang.String">
+        delete from `tbl_permission` where id = #{id}
+    </delete>
+    <delete id="deletePermissionByIds" parameterType="java.lang.String">
+        delete from `tbl_permission`
+        where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+        #{id}
+    </foreach>
+    </delete>
+</mapper>
