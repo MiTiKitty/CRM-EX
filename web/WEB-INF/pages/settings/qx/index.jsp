@@ -82,7 +82,7 @@
             });
 
             //展示市场活动页面
-            window.open("${pageContext.request.contextPath}/settings/qx/user/index.do", "workAreaFrame");
+            window.open("${pageContext.request.contextPath}/settings/qx/permission/index.do", "workAreaFrame");
 
             //给我的资料按钮添加单击事件
             $("#myInformationA").click(function () {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.settings.mapper.RolePermissionRelationMapper">
+    <select id="selectPermissionByRoleId" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.Permission">
+        select tp.id as id, tp.pid as pid, tp.name as name
+        from `tbl_permission` tp
+        join `tbl_role_permission_relation` trpr on tp.id = trpr.permissionId
+        where trpr.roleId = #{roleId}
+        order by tp.orderNo asc
+    </select>
+    <insert id="insertRolePermissionRelation" parameterType="com.itCat.crmEX.settings.domain.RolePermissionRelation">
+        insert into `tbl_role_permission_relation` (id, roleId, permissionId) values
+        <foreach collection="list" separator="," item="obj">
+            (#{obj.id}, #{obj.roleId}, #{obj.permissionId})
+        </foreach>
+    </insert>
+    <delete id="deleteRolePermissionRelationByIds" parameterType="java.lang.String">
+        delete from `tbl_role_permission_relation` where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteRolePermissionRelationByRoleId" parameterType="java.lang.String">
+        delete from `tbl_role_permission_relation` where roleId = #{roleId}
+    </delete>
+    <delete id="deleteRolePermissionRelationByPermissionId" parameterType="java.lang.String">
+        delete from `tbl_role_permission_relation` where permissionId = #{permissionId}
+    </delete>
+    <delete id="deleteRolePermissionRelationByRoleIds" parameterType="java.lang.String">
+        delete from `tbl_role_permission_relation` where roleId in
+        <foreach collection="array" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+    <delete id="deleteRolePermissionRelationByPermissionIds" parameterType="java.lang.String">
+        delete from `tbl_role_permission_relation` where permissionId in
+        <foreach collection="list" item="permissionId" open="(" separator="," close=")">
+            #{permissionId}
+        </foreach>
+    </delete>
+</mapper>

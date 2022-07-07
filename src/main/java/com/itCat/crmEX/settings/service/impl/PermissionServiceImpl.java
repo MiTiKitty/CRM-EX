@@ -2,6 +2,7 @@ package com.itCat.crmEX.settings.service.impl;
 
 import com.itCat.crmEX.settings.domain.Permission;
 import com.itCat.crmEX.settings.mapper.PermissionMapper;
+import com.itCat.crmEX.settings.mapper.RolePermissionRelationMapper;
 import com.itCat.crmEX.settings.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Autowired
     private PermissionMapper permissionMapper;
+
+    @Autowired
+    private RolePermissionRelationMapper rolePermissionRelationMapper;
 
     @Override
     public List<Permission> queryAllPermission() {
@@ -49,6 +53,7 @@ public class PermissionServiceImpl implements PermissionService {
             }
             permissionList.add(pid);
         }
+        rolePermissionRelationMapper.deleteRolePermissionRelationByPermissionIds(permissionList);
         permissionMapper.deletePermissionByIds(permissionList);
     }
 }
