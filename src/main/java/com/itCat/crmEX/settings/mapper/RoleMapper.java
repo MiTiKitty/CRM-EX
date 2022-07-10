@@ -35,6 +35,26 @@ public interface RoleMapper {
     Role selectRoleByCode(String code);
 
     /**
+     * 查找所有角色供用户选择分配
+     * @return
+     */
+    List<Role> selectAllRoleForUserCondition();
+
+    /**
+     * 根据用户id查找未被分配的角色数据列表
+     * @param userId
+     * @return
+     */
+    List<Role> selectAllAllotRoleForUserByUserId(String userId);
+
+    /**
+     * 根据用户id查找已分配的角色数据列表
+     * @param userId
+     * @return
+     */
+    List<Role> selectAllAnnulRoleForUserByUserId(String userId);
+
+    /**
      * 插入一个新的角色信息
      * @param role
      * @return

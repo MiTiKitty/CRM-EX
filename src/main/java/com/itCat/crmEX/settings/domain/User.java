@@ -27,9 +27,11 @@ public class User {
 
     private String editTime;
 
+    private Department department;
+
     public User(){}
 
-    public User(String id, String username, String name, String password, String email, String phone, String expireTime, String lockStatus, String allowIps, String createBy, String createTime, String editBy, String editTime) {
+    public User(String id, String username, String name, String password, String email, String phone, String expireTime, String lockStatus, String allowIps, String createBy, String createTime, String editBy, String editTime, Department department) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -43,6 +45,7 @@ public class User {
         this.createTime = createTime;
         this.editBy = editBy;
         this.editTime = editTime;
+        this.department = department;
     }
 
     public String getId() {
@@ -147,5 +150,13 @@ public class User {
 
     public void setEditTime(String editTime) {
         this.editTime = editTime;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

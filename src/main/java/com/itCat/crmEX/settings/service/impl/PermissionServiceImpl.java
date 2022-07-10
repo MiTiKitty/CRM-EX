@@ -29,6 +29,11 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public List<Permission> queryPermissionForUserByUserId(String userId) {
+        return permissionMapper.selectPermissionForUserByUserId(userId);
+    }
+
+    @Override
     public int savePermission(Permission permission) {
         return permissionMapper.insertPermission(permission);
     }

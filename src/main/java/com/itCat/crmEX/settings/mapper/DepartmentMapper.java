@@ -27,6 +27,13 @@ public interface DepartmentMapper {
     Department selectDepartmentById(String id);
 
     /**
+     * 根据部门名称模糊查询部门信息
+     * @param name
+     * @return
+     */
+    List<Department> selectDepartmentsByName(String name);
+
+    /**
      * 插入一个新的部门
      * @param department
      * @return

@@ -15,6 +15,12 @@ public interface RoleService {
 
     Role queryRoleByCode(String code);
 
+    List<Role> queryAllRoleForUserCondition();
+
+    List<Role> queryAllAllotRoleForUserByUserId(String userId);
+
+    List<Role> queryAllAnnulRoleForUserByUserId(String userId);
+
     int saveRole(Role role);
 
     int editRole(Role role);

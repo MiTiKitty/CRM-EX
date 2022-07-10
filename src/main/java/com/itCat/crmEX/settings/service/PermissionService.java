@@ -10,6 +10,8 @@ public interface PermissionService {
 
     Permission queryPermissionForDetailById(String id);
 
+    List<Permission> queryPermissionForUserByUserId(String userId);
+
     int savePermission(Permission permission);
 
     int editPermissionById(Permission permission);

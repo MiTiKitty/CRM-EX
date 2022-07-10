@@ -21,14 +21,34 @@
         from `tbl_role`
         where code = #{code}
     </select>
+    <select id="selectAllRoleForUserCondition" resultType="com.itCat.crmEX.settings.domain.Role">
+        select id, code, name
+        from `tbl_role`
+    </select>
+    <select id="selectAllAllotRoleForUserByUserId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.settings.domain.Role">
+        select tr.id, tr.name, tr.code
+        from `tbl_role` tr
+        where tr.id not in(
+                      select roleId from tbl_user_role_relation where userId = #{userId}
+                  );
+    </select>
+    <select id="selectAllAnnulRoleForUserByUserId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.settings.domain.Role">
+        select tr.id, tr.name, tr.code
+        from `tbl_role` tr
+        where tr.id in(
+                select roleId from tbl_user_role_relation where userId = #{userId}
+            );
+    </select>
     <insert id="insertRole" parameterType="com.itCat.crmEX.settings.domain.Role">
         insert into `tbl_role` (id, code, name, description)
         values (#{id}, #{code}, #{name}, #{description})
     </insert>
     <update id="updateRole" parameterType="com.itCat.crmEX.settings.domain.Role">
         update `tbl_role`
-        set code = #{code},
-            name = #{name},
+        set code        = #{code},
+            name        = #{name},
             description = #{description}
         where id = #{id}
     </update>

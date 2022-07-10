@@ -30,6 +30,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Department> queryDepartmentsByName(String name) {
+        return departmentMapper.selectDepartmentsByName(name);
+    }
+
+    @Override
     public int saveDepartment(Department department) {
         return departmentMapper.insertDepartment(department);
     }

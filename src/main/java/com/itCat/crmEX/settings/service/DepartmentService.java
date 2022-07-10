@@ -12,6 +12,8 @@ public interface DepartmentService {
 
     Department queryDepartmentById(String id);
 
+    List<Department> queryDepartmentsByName(String name);
+
     int saveDepartment(Department department);
 
     int editDepartmentById(Department department);

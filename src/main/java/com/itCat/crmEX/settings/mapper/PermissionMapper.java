@@ -27,6 +27,13 @@ public interface PermissionMapper {
     List<String> selectPermissionIdsByPid(String pid);
 
     /**
+     * 根据用户id查找用户许可信息
+     * @param userId
+     * @return
+     */
+    List<Permission> selectPermissionForUserByUserId(String userId);
+
+    /**
      * 插入一条许可信息
      * @param permission
      * @return

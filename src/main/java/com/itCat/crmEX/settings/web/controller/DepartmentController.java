@@ -9,6 +9,7 @@ import com.itCat.crmEX.settings.service.DepartmentService;
 import com.itCat.crmEX.settings.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -146,6 +147,17 @@ public class DepartmentController {
             resultObject.setMessage("系统繁忙，请稍后重试...");
         }
         return resultObject;
+    }
+
+    /**
+     * 根据部门名称模糊查询部门信息
+     * @param name
+     * @return
+     */
+    @RequestMapping("/queryDepartmentsByName.do")
+    @ResponseBody
+    public Object queryDepartmentsByName(String name){
+        return departmentService.queryDepartmentsByName(name);
     }
 
 }

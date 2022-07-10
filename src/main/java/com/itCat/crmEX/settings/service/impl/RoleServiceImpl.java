@@ -3,6 +3,7 @@ package com.itCat.crmEX.settings.service.impl;
 import com.itCat.crmEX.settings.domain.Role;
 import com.itCat.crmEX.settings.mapper.RoleMapper;
 import com.itCat.crmEX.settings.mapper.RolePermissionRelationMapper;
+import com.itCat.crmEX.settings.mapper.UserRoleRelationMapper;
 import com.itCat.crmEX.settings.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RolePermissionRelationMapper rolePermissionRelationMapper;
+
+    @Autowired
+    private UserRoleRelationMapper userRoleRelationMapper;
 
     @Override
     public List<Role> queryAllRoleByPage(Map<String, Object> map) {
@@ -40,6 +44,21 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> queryAllRoleForUserCondition() {
+        return roleMapper.selectAllRoleForUserCondition();
+    }
+
+    @Override
+    public List<Role> queryAllAllotRoleForUserByUserId(String userId) {
+        return roleMapper.selectAllAllotRoleForUserByUserId(userId);
+    }
+
+    @Override
+    public List<Role> queryAllAnnulRoleForUserByUserId(String userId) {
+        return roleMapper.selectAllAnnulRoleForUserByUserId(userId);
+    }
+
+    @Override
     public int saveRole(Role role) {
         return roleMapper.insertRole(role);
     }
@@ -51,6 +70,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void removeRoleByIds(String[] ids) {
+        userRoleRelationMapper.deleteUserRoleRelationByRoleIds(ids);
         rolePermissionRelationMapper.deleteRolePermissionRelationByRoleIds(ids);
         roleMapper.deleteRoleByIds(ids);
     }

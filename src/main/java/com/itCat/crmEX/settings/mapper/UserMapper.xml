@@ -1,33 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itCat.crmEX.settings.mapper.UserMapper">
+    <resultMap id="UserJoinDepartmentMap" type="com.itCat.crmEX.settings.domain.User">
+        <id column="tuId" property="id"/>
+        <result column="username" property="username"/>
+        <result column="tuName" property="name"/>
+        <result column="email" property="email"/>
+        <result column="tuPhone" property="phone"/>
+        <result column="expireTime" property="expireTime"/>
+        <result column="lockStatus" property="lockStatus"/>
+        <result column="allowIps" property="allowIps"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createTime" property="createTime"/>
+        <result column="editBy" property="editBy"/>
+        <result column="editTime" property="editTime"/>
+        <association property="department" javaType="com.itCat.crmEX.settings.domain.Department">
+            <id column="tdId" property="id"/>
+            <result column="number" property="number"/>
+            <result column="tdName" property="name"/>
+            <result column="description" property="description"/>
+            <result column="tdPhone" property="phone"/>
+        </association>
+    </resultMap>
     <select id="selectAllUserForOption" resultType="com.itCat.crmEX.settings.domain.User">
         select id, name
         from `tbl_user`
     </select>
-    <select id="selectUserByUsernameAndPassword" parameterType="java.util.Map" resultType="com.itCat.crmEX.settings.domain.User">
-        select id, username, name, password, email, phone, expireTime, lockStatus, allowIps, createBy, createTime, editBy, editTime
+    <select id="selectUserByUsernameAndPassword" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.settings.domain.User">
+        select id,
+               username,
+               name,
+               password,
+               email,
+               phone,
+               expireTime,
+               lockStatus,
+               allowIps,
+               createBy,
+               createTime,
+               editBy,
+               editTime
         from `tbl_user`
-        where `username` = #{username} and `password` = #{password}
+        where `username` = #{username}
+          and `password` = #{password}
     </select>
     <select id="selectUserById" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.User">
-        select id, username, name, password, email, phone, expireTime, lockStatus, allowIps, createBy, createTime, editBy, editTime
+        select id,
+               username,
+               name,
+               password,
+               email,
+               phone,
+               expireTime,
+               lockStatus,
+               allowIps,
+               createBy,
+               createTime,
+               editBy,
+               editTime
         from `tbl_user`
         where id = #{id}
     </select>
-    <update id="updateUserPasswordById" parameterType="java.util.Map">
-        update `tbl_user` set password = #{password} where id = #{id}
-    </update>
+    <select id="selectUserForDetailById" parameterType="java.lang.String" resultMap="UserJoinDepartmentMap">
+        select tu.id    as tuId,
+               tu.username,
+               tu.name  as tuName,
+               tu.email,
+               tu.phone as tuPhone,
+               tu.expireTime,
+               tu.lockStatus,
+               tu.allowIps,
+               tu1.name as createBy,
+               tu.createTime,
+               tu2.name as editBy,
+               tu.editTime,
+               tu.departmentId,
+               td.id    as tdId,
+               td.number,
+               td.name  as tdName,
+               td.description,
+               td.phone as tdPhone
+        from `tbl_user` tu
+                 join tbl_department td on tu.departmentId = td.id
+                 left outer join `tbl_user` as tu1 on tu1.id = tu.createBy
+                 left outer join `tbl_user` as tu2 on tu2.id = tu.editBy
+        where tu.id = #{id}
+    </select>
+    <select id="selectUsersByCondition" resultMap="UserJoinDepartmentMap">
+        select tu.id as tuId, tu.username, tu.name as tuName, tu.email, tu.phone as tuPhone, tu.expireTime,
+        tu.lockStatus, tu.allowIps, tu1.name as createBy , tu.createTime, tu2.name as editBy,
+        tu.editTime, tu.departmentId, td.id as tdId, td.number, td.name as tdName, td.description,
+        td.phone as tdPhone
+        from `tbl_user` tu
+        join tbl_department td on tu.departmentId = td.id
+        left outer join `tbl_user` as tu1 on tu1.id = tu.createBy
+        left outer join `tbl_user` as tu2 on tu2.id = tu.editBy
+        where tu.name like #{userName} and
+        td.name like #{departmentName}
+        <if test="lockStatus != null and lockStatus != ''">
+            and tu.lockStatus = #{lockStatus}
+        </if>
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+            and tu.expireTime between #{startTime} and #{endTime}
+        </if>
+        limit #{beginPage}, #{pageSize}
+    </select>
+    <select id="selectUserCountByUsername" parameterType="java.lang.String" resultType="int">
+        select count(id)
+        from `tbl_user`
+        where `username` = #{username}
+    </select>
+    <select id="selectAllUserCountByCondition" parameterType="map" resultType="int">
+        select count(tu.id)
+        from `tbl_user` tu
+        join tbl_department td on tu.departmentId = td.id
+        where tu.name like #{userName} and
+        td.name like #{departmentName}
+        <if test="lockStatus != null and lockStatus != ''">
+            and tu.lockStatus = #{lockStatus}
+        </if>
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+            and tu.expireTime between #{startTime} and #{endTime}
+        </if>
+    </select>
     <insert id="insertNewUser" parameterType="com.itCat.crmEX.settings.domain.User">
         insert into `tbl_user`
-            (id, username, name, password,
-             email, phone, expireTime, lockStatus,
-             allowIps, createBy, createTime)
+        (id, username, name, password,
+         email, phone, expireTime, lockStatus,
+         allowIps, createBy, createTime, departmentId)
         values (#{id}, #{username}, #{name}, #{password},
                 #{email}, #{phone}, #{expireTime}, #{lockStatus},
-                #{allowIps}, #{createBy}, #{createTime})
+                #{allowIps}, #{createBy}, #{createTime}, #{department.id})
     </insert>
-    <select id="selectUsersByPageSize" resultType="com.itCat.crmEX.settings.domain.User">
-
-    </select>
+    <update id="updateUserPasswordById" parameterType="java.util.Map">
+        update `tbl_user`
+        set password = #{password}
+        where id = #{id}
+    </update>
+    <update id="updateUserById" parameterType="com.itCat.crmEX.settings.domain.User">
+        update `tbl_user`
+        set username = #{username},
+            name = #{name},
+            password = #{password},
+            email = #{email},
+            phone = #{phone},
+            expireTime = #{expireTime},
+            lockStatus = #{lockStatus},
+            departmentId = #{department.id},
+            allowIps = #{allowIps}
+        where id = #{id}
+    </update>
+    <update id="updateUserLockStatusById" parameterType="java.util.Map">
+        update `tbl_user`
+        set lockStatus = #{lockStatus}
+        where id = #{id}
+    </update>
+    <delete id="deleteUsersById" parameterType="java.lang.String">
+        delete from `tbl_user` where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

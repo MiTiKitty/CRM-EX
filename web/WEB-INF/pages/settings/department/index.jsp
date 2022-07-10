@@ -61,6 +61,8 @@
         let isNum = false;
         let isName = false;
         let isPhone = false;
+        const passwordFormat = /^[a-zA-Z0-9_-]{1,16}$/;
+
         //页面加载完毕
         $(function() {
             //给我的资料按钮添加单击事件

@@ -14,6 +14,13 @@ public interface UserMapper {
     List<User> selectAllUserForOption();
 
     /**
+     * 分页查询用户
+     * @param map
+     * @return
+     */
+    List<User> selectUsersByCondition(Map<String, Object> map);
+
+    /**
      * 根据用户名和密码查询用户
      * @param map
      * @return
@@ -26,6 +33,27 @@ public interface UserMapper {
      * @return
      */
     User selectUserById(String id);
+
+    /**
+     * 根据用户id查找用户具体信息
+     * @param id
+     * @return
+     */
+    User selectUserForDetailById(String id);
+
+    /**
+     * 根据用户名返回该用户数量
+     * @param username
+     * @return
+     */
+    int selectUserCountByUsername(String username);
+
+    /**
+     * 条件查询用户数据总条数
+     * @param map
+     * @return
+     */
+    int selectAllUserCountByCondition(Map<String, Object> map);
 
     /**
      * 根据当前用户id修改密码
@@ -42,10 +70,24 @@ public interface UserMapper {
     int insertNewUser(User user);
 
     /**
-     * 分页查询用户
+     * 根据用户id更新用户信息
+     * @param user
+     * @return
+     */
+    int updateUserById(User user);
+
+    /**
+     * 根据用户id修改用户账号状态
      * @param map
      * @return
      */
-    List<User> selectUsersByPageSize(Map<String, Object> map);
+    int updateUserLockStatusById(Map<String, Object> map);
+
+    /**
+     * 根据用户id集合删除用户信息
+     * @param ids
+     * @return
+     */
+    int deleteUsersById(String[] ids);
 
 }

@@ -6,7 +6,8 @@
         from `tbl_permission`
         order by orderNo asc
     </select>
-    <select id="selectPermissionForDetailById" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.Permission">
+    <select id="selectPermissionForDetailById" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.settings.domain.Permission">
         select id, pid, name, moduleUrl, operUrl, orderNo
         from `tbl_permission`
         where id = #{id}
@@ -16,28 +17,43 @@
         from `tbl_permission`
         where pid = #{pid}
     </select>
+    <select id="selectPermissionForUserByUserId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.settings.domain.Permission">
+        select tp.id, tp.pid, tp.name
+        from tbl_permission tp
+        where tp.id in (
+            select permissionId
+            from tbl_role_permission_relation
+            where roleId in (
+                select roleId
+                from tbl_user_role_relation
+                where userId = #{userId}
+            )
+        )
+    </select>
     <insert id="insertPermission" parameterType="com.itCat.crmEX.settings.domain.Permission">
         insert into `tbl_permission`
-        (id, pid, name, moduleUrl, operUrl, orderNo)
-        values
-        (#{id}, #{pid}, #{name}, #{moduleUrl}, #{operUrl}, #{orderNo})
+            (id, pid, name, moduleUrl, operUrl, orderNo)
+        values (#{id}, #{pid}, #{name}, #{moduleUrl}, #{operUrl}, #{orderNo})
     </insert>
     <update id="updatePermissionById" parameterType="com.itCat.crmEX.settings.domain.Permission">
         update `tbl_permission`
-        set name = #{name},
+        set name      = #{name},
             moduleUrl = #{moduleUrl},
-            operUrl = #{operUrl},
-            orderNo = #{orderNo}
+            operUrl   = #{operUrl},
+            orderNo   = #{orderNo}
         where id = #{id}
     </update>
     <delete id="deletePermissionById" parameterType="java.lang.String">
-        delete from `tbl_permission` where id = #{id}
+        delete
+        from `tbl_permission`
+        where id = #{id}
     </delete>
     <delete id="deletePermissionByIds" parameterType="java.lang.String">
         delete from `tbl_permission`
         where id in
-    <foreach collection="list" open="(" close=")" separator="," item="id">
-        #{id}
-    </foreach>
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
     </delete>
 </mapper>

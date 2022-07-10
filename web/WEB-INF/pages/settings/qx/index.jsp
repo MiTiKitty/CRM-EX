@@ -57,6 +57,7 @@
             src="${pageContext.request.contextPath}/jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/password.js"></script>
     <script type="text/javascript">
+        const passwordFormat = /^[a-zA-Z0-9_-]{1,16}$/;
         //页面加载完毕
         $(function () {
 

@@ -30,6 +30,11 @@
         left outer join `tbl_user` tu on tu.id = td.manager
         where td.id = #{id}
     </select>
+    <select id="selectDepartmentsByName" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.Department">
+        select id, name, number
+        from `tbl_department`
+        where name like #{name}
+    </select>
     <insert id="insertDepartment" parameterType="com.itCat.crmEX.settings.domain.Department">
         insert into `tbl_department`
         (id, number, name, manager, description, phone)

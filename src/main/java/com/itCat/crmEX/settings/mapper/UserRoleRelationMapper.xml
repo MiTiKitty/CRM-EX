@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.settings.mapper.UserRoleRelationMapper">
+    <insert id="insertUserRoleRelation" parameterType="com.itCat.crmEX.settings.domain.UserRoleRelation">
+        insert into `tbl_user_role_relation`
+            (id, userId, roleId)
+        values (#{id}, #{userId}, #{roleId})
+    </insert>
+    <insert id="insertUserRoleRelations" parameterType="com.itCat.crmEX.settings.domain.UserRoleRelation">
+        insert into `tbl_user_role_relation`
+        (id, userId, roleId)
+        values
+        <foreach collection="list" item="ur" separator=",">
+            (#{ur.id}, #{ur.userId}, #{ur.roleId})
+        </foreach>
+    </insert>
+    <delete id="deleteUserRoleRelationByRoleId" parameterType="java.lang.String">
+        delete
+        from `tbl_user_role_relation`
+        where roleId = #{roleId}
+    </delete>
+    <delete id="deleteUserRoleRelationByRoleIds" parameterType="java.lang.String">
+        delete
+        from `tbl_user_role_relation`
+        where roleId in
+        <foreach collection="array" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+    <delete id="deleteUserRoleRelationByUserId" parameterType="java.lang.String">
+        delete
+        from `tbl_user_role_relation`
+        where userId = #{userId}
+    </delete>
+    <delete id="deleteUserRoleRelationByUserIds" parameterType="java.lang.String">
+        delete
+        from `tbl_user_role_relation`
+        where userId in
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+    <delete id="deleteUserRoleRelationByUserIdAndRoleIds" parameterType="java.util.Map">
+        delete from `tbl_user_role_relation`
+        where userId = #{userId} and
+        roleId in
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+</mapper>
