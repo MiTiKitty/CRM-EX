@@ -492,7 +492,8 @@ public class UserController {
      * @param allowIps
      * @param departmentId
      */
-    private void setUserField(User user, String username, String name, String password, String email, String phone, String expireTime, String lockStatus, String allowIps, String departmentId) {
+    private void setUserField(User user, String username, String name, String password, String email, String phone,
+                              String expireTime, String lockStatus, String allowIps, String departmentId) {
         Department department = new Department();
         department.setId(departmentId);
         user.setUsername(username);

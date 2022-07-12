@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.ActivityMapper">
+    <select id="selectActivityByCondition" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id, ta.name, tu1.name as owner, ta.startDate, ta.endDate
+        from `tbl_activity` ta
+        join `tbl_user` tu1 on ta.owner = tu1.id
+        <where>
+            <if test="name != null and name != ''">
+                and ta.name like concat('%',#{name},'%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and tu1.name like concat('%',#{owner},'%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and ta.startDate >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and ta.endDate &lt;= #{endDate}
+            </if>
+        </where>
+        order by ta.startDate desc
+        limit ${pageBegin}, ${pageSize}
+    </select>
+    <select id="selectAllActivityByCondition" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id,
+        ta.name,
+        tu1.name as owner,
+        tdv1.value as source,
+        tdv2.value as state,
+        ta.startDate,
+        ta.endDate,
+        ta.budgetCost,
+        ta.description,
+        tu2.name as createBy,
+        ta.createTime,
+        tu3.name as editBy,
+        ta.editTime
+        from `tbl_activity` ta
+        join `tbl_user` tu1 on ta.owner = tu1.id
+        join `tbl_dictionary_value` tdv1 on ta.source = tdv1.id
+        join `tbl_dictionary_value` tdv2 on ta.state = tdv2.id
+        join `tbl_user` tu2 on ta.createBy = tu2.id
+        left outer join `tbl_user` tu3 on ta.editBy = tu3.id
+        <where>
+            <if test="name != null and name != ''">
+                and ta.name like concat('%',#{name},'%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and tu1.name like concat('%',#{owner},'%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and ta.startDate >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and ta.endDate &lt;= #{endDate}
+            </if>
+        </where>
+        order by ta.startDate desc
+    </select>
+    <select id="selectActivityCountByCondition" parameterType="java.util.Map" resultType="int">
+        select count(ta.id)
+        from `tbl_activity` ta
+        join `tbl_user` tu1 on ta.owner = tu1.id
+        <where>
+            <if test="name != null and name != ''">
+                and ta.name like concat('%',#{name},'%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and tu1.name like concat('%',#{owner},'%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and ta.startDate >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and ta.endDate &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+    <select id="selectActivityById" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select id,
+               owner,
+               source,
+               name,
+               state,
+               startDate,
+               endDate,
+               budgetCost,
+               description
+        from `tbl_activity`
+        where id = #{id}
+    </select>
+    <select id="selectActivityForDetailById" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id,
+               ta.name,
+               tu1.name   as owner,
+               tdv1.value as source,
+               tdv2.value as state,
+               ta.startDate,
+               ta.endDate,
+               ta.budgetCost,
+               ta.description,
+               tu2.name   as createBy,
+               ta.createTime,
+               tu3.name   as editBy,
+               ta.editTime
+        from `tbl_activity` ta
+                 join `tbl_user` tu1 on ta.owner = tu1.id
+                 join `tbl_dictionary_value` tdv1 on ta.source = tdv1.id
+                 join `tbl_dictionary_value` tdv2 on ta.state = tdv2.id
+                 join `tbl_user` tu2 on ta.createBy = tu2.id
+                 left outer join `tbl_user` tu3 on ta.editBy = tu3.id
+        where ta.id = #{id}
+    </select>
+    <select id="selectActivityByIds" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id,
+        ta.name,
+        tu1.name as owner,
+        tdv1.value as source,
+        tdv2.value as state,
+        ta.startDate,
+        ta.endDate,
+        ta.budgetCost,
+        ta.description,
+        tu2.name as createBy,
+        ta.createTime,
+        tu3.name as editBy,
+        ta.editTime
+        from `tbl_activity` ta
+        join `tbl_user` tu1 on ta.owner = tu1.id
+        join `tbl_dictionary_value` tdv1 on ta.source = tdv1.id
+        join `tbl_dictionary_value` tdv2 on ta.state = tdv2.id
+        join `tbl_user` tu2 on ta.createBy = tu2.id
+        left outer join `tbl_user` tu3 on ta.editBy = tu3.id
+        where ta.id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectAllActivity" resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id,
+               ta.name,
+               tu1.name   as owner,
+               tdv1.value as source,
+               tdv2.value as state,
+               ta.startDate,
+               ta.endDate,
+               ta.budgetCost,
+               ta.description,
+               tu2.name   as createBy,
+               ta.createTime,
+               tu3.name   as editBy,
+               ta.editTime
+        from `tbl_activity` ta
+                 join `tbl_user` tu1 on ta.owner = tu1.id
+                 join `tbl_dictionary_value` tdv1 on ta.source = tdv1.id
+                 join `tbl_dictionary_value` tdv2 on ta.state = tdv2.id
+                 join `tbl_user` tu2 on ta.createBy = tu2.id
+                 left outer join `tbl_user` tu3 on ta.editBy = tu3.id
+    </select>
+    <insert id="insertActivities" parameterType="com.itCat.crmEX.workbench.domain.Activity">
+        insert into `tbl_activity`
+        (id, owner, source, name, state, startDate, endDate, budgetCost, description, createBy, createTime)
+        values
+        <foreach collection="list" separator="," item="a">
+            (#{a.id}, #{a.owner}, (select id from `tbl_dictionary_value` tv1 where tv1.value = #{a.source}), #{a.name},
+            (select id from `tbl_dictionary_value` tv2 where tv2.value = #{a.state}), #{a.startDate}, #{a.endDate},
+            #{a.budgetCost}, #{a.description}, #{a.createBy}, #{a.createTime})
+        </foreach>
+    </insert>
+    <insert id="insertActivity" parameterType="com.itCat.crmEX.workbench.domain.Activity">
+        insert into `tbl_activity`
+        (id, owner, source, name, state, startDate, endDate, budgetCost, description, createBy, createTime)
+        values (#{id}, #{owner}, #{source}, #{name}, #{state}, #{startDate}, #{endDate}, #{budgetCost}, #{description},
+                #{createBy}, #{createTime});
+    </insert>
+    <update id="updateActivityById" parameterType="com.itCat.crmEX.workbench.domain.Activity">
+        update `tbl_activity`
+        set owner       = #{owner},
+            name        = #{name},
+            source      = #{source},
+            state       = #{state},
+            startDate   = #{startDate},
+            endDate     = #{endDate},
+            budgetCost  = #{budgetCost},
+            description = #{description},
+            editBy      = #{editBy},
+            editTime    = #{editTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteActivityByIds" parameterType="java.lang.String">
+        delete from `tbl_activity`
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

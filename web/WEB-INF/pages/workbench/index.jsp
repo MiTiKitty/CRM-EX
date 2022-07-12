@@ -383,7 +383,7 @@
     <div id="navigation" style="left: 0px; position: relative; width: 18%; height: 100%; overflow:auto;">
 
         <ul id="no1" class="nav nav-pills nav-stacked">
-            <li class="liClass"><a href="main/index.jsp" target="workAreaFrame"><span
+            <li class="liClass"><a href="${pageContext.request.contextPath}/workbench/main/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-home"></span><span name="listname"> 工作台</span></a></li>
             <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-tag"></span><span name="listname"> 动态</span></a></li>
@@ -391,7 +391,7 @@
                     class="glyphicon glyphicon-time"></span><span name="listname"> 审批</span></a></li>
             <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-user"></span><span name="listname"> 客户公海</span></a></li>
-            <li class="liClass"><a href="activity/index.html" target="workAreaFrame"><span
+            <li class="liClass"><a href="${pageContext.request.contextPath}/workbench/activity/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-play-circle"></span><span name="listname"> 市场活动</span></a></li>
             <li class="liClass"><a href="clue/index.html" target="workAreaFrame"><span
                     class="glyphicon glyphicon-search"></span><span name="listname"> 线索（潜在客户）</span></a></li>

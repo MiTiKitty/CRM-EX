@@ -13,6 +13,8 @@ public interface DictionaryValueService {
 
     DictionaryValue queryDictionaryValueById(String id);
 
+    List<DictionaryValue> queryDictionaryValueByTypeCode(String typeCode);
+
     int saveNewDictionaryValue(DictionaryValue dictionaryValue);
 
     int editDictionaryValue(DictionaryValue dictionaryValue);

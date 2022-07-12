@@ -28,6 +28,13 @@ public interface DictionaryValueMapper {
     DictionaryValue selectDictionaryValueById(String id);
 
     /**
+     * 根据字典类型代码查找数据字典值
+     * @param typeCode
+     * @return
+     */
+    List<DictionaryValue> selectDictionaryValueByTypeCode(String typeCode);
+
+    /**
      * 插入一个新的字典值
      * @param dictionaryValue
      * @return

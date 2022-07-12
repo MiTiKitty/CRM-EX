@@ -13,7 +13,7 @@
 
     <!--基本包扫描-->
     <context:component-scan base-package="com.itCat.crmEX.settings.service"/>
-
+    <context:component-scan base-package="com.itCat.crmEX.workbench.service"/>
 
     <!--加载jdbc配置文件-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
@@ -34,7 +34,7 @@
 
     <!--配置mapper-->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.itCat.crmEX.settings.mapper"/>
+        <property name="basePackage" value="com.itCat.crmEX.settings.mapper,com.itCat.crmEX.workbench.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
@@ -46,11 +46,11 @@
     <!--配置事务增强-->
     <tx:advice id="interceptor" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="save*" propagation="REQUIRED" />
-            <tx:method name="remove*" propagation="REQUIRED" />
-            <tx:method name="edit*" propagation="REQUIRED" />
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="remove*" propagation="REQUIRED"/>
+            <tx:method name="edit*" propagation="REQUIRED"/>
             <tx:method name="query*" propagation="REQUIRED" read-only="true"/>
-            <tx:method name="*" rollback-for="Exception" />
+            <tx:method name="*" rollback-for="Exception"/>
         </tx:attributes>
     </tx:advice>
 

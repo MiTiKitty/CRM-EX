@@ -16,6 +16,12 @@
         from `tbl_dictionary_value`
         where `id` = #{id}
     </select>
+    <select id="selectDictionaryValueByTypeCode" parameterType="java.lang.String" resultType="com.itCat.crmEX.settings.domain.DictionaryValue">
+        select `id`, `value`, `text`
+        from `tbl_dictionary_value`
+        where `typeCode` = #{typeCode}
+        order by orderNo desc
+    </select>
     <insert id="insertNewDictionaryValue" parameterType="com.itCat.crmEX.settings.domain.DictionaryValue">
         insert into `tbl_dictionary_value` (`id`, `value`, `text`, `orderNo`, `typeCode`)
         values (#{id}, #{value}, #{text}, #{orderNo}, #{typeCode});

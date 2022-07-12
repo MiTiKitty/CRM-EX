@@ -31,6 +31,11 @@ public class DictionaryValueServiceImpl implements DictionaryValueService {
     }
 
     @Override
+    public List<DictionaryValue> queryDictionaryValueByTypeCode(String typeCode) {
+        return dictionaryValueMapper.selectDictionaryValueByTypeCode(typeCode);
+    }
+
+    @Override
     public int saveNewDictionaryValue(DictionaryValue dictionaryValue) {
         return dictionaryValueMapper.insertNewDictionaryValue(dictionaryValue);
     }

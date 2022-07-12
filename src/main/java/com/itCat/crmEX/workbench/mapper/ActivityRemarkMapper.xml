@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.ActivityRemarkMapper">
+    <select id="selectAllActivityRemarkByActivityId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.ActivityRemark">
+        select tar.id, tu1.name as notePerson, noteContent, noteTime, tu2.name as editPerson, tar.editTime, editFlag
+        from `tbl_activity_remark` tar
+                 join tbl_user tu1 on tar.notePerson = tu1.id
+                 left outer join tbl_user tu2 on tar.editPerson = tu2.id
+        where activityId = #{activityId}
+    </select>
+    <insert id="insertActivityRemark" parameterType="com.itCat.crmEX.workbench.domain.ActivityRemark">
+        insert into `tbl_activity_remark`
+        (id, notePerson, noteContent, noteTime, editPerson, editTime, editFlag, activityId)
+        values (#{id}, #{notePerson}, #{noteContent}, #{noteTime}, #{editPerson}, #{editTime}, #{editFlag},
+                #{activityId})
+    </insert>
+    <update id="editActivityRemarkById" parameterType="com.itCat.crmEX.workbench.domain.ActivityRemark">
+        update `tbl_activity_remark`
+        set noteContent = #{noteContent},
+            editPerson  = #{editPerson},
+            editFlag    = #{editFlag},
+            editTime    = #{editTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteActivityRemarkById" parameterType="java.lang.String">
+        delete
+        from `tbl_activity_remark`
+        where id = #{id}
+    </delete>
+    <delete id="deleteActivityRemarkByActivityId" parameterType="java.lang.String">
+        delete
+        from `tbl_activity_remark`
+        where activityId = #{activityId}
+    </delete>
+    <delete id="deleteActivityRemarkByActivityIds" parameterType="java.lang.String">
+        delete from `tbl_activity_remark`
+        where activityId in
+        <foreach collection="array" item="activityId" open="(" separator="," close=")">
+            #{activityId}
+        </foreach>
+    </delete>
+</mapper>
