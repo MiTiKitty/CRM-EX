@@ -55,6 +55,21 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public List<Activity> queryActivityForClueRelationByClueId(String clueId) {
+        return activityMapper.selectActivityForClueRelationByClueId(clueId);
+    }
+
+    @Override
+    public List<Activity> queryActivityByName(Map<String, Object> map) {
+        return activityMapper.selectActivityForClueByName(map);
+    }
+
+    @Override
+    public List<Activity> queryActivityForClueConvertByName(Map<String, Object> map) {
+        return activityMapper.selectActivityForClueConvertByName(map);
+    }
+
+    @Override
     public int importActivities(List<Activity> activityList) {
         return activityMapper.insertActivities(activityList);
     }

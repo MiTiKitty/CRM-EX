@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.ContactsMapper">
+    <insert id="insertContacts" parameterType="com.itCat.crmEX.workbench.domain.Contacts">
+        insert into `tbl_contacts`
+        (id, owner, source, appellation, fullName, email, job, mphone, description, address, birth, customerId,
+         createBy, createTime, contactSummary, nextContactTime)
+            value (#{id}, #{owner}, #{source}, #{appellation}, #{fullName}, #{email}, #{job}, #{mphone}, #{description},
+                   #{address}, #{birth}, #{customerId}, #{createBy}, #{createTime}, #{contactSummary},
+                   #{nextContactTime})
+    </insert>
+</mapper>

@@ -1,5 +1,6 @@
 package com.itCat.crmEX.workbench.service.impl;
 
+import com.itCat.crmEX.commons.constants.Constants;
 import com.itCat.crmEX.workbench.domain.ActivityRemark;
 import com.itCat.crmEX.workbench.mapper.ActivityRemarkMapper;
 import com.itCat.crmEX.workbench.service.ActivityRemarkService;
@@ -19,7 +20,7 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
     public List<ActivityRemark> queryAllActivityRemarkByActivityId(String activityId) {
         List<ActivityRemark> remarkList = activityRemarkMapper.selectAllActivityRemarkByActivityId(activityId);
         for (ActivityRemark remark : remarkList) {
-            if ("0".equals(remark.getEditFlag())){
+            if (Constants.NOT_EDIT.equals(remark.getEditFlag())){
                 remark.setShowPerson(remark.getNotePerson());
                 remark.setShowTime(remark.getNoteTime());
             }else {

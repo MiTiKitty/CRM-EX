@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.ClueActivityRelationMapper">
+    <select id="selectClueActivityRelationByClueId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.ClueActivityRelation">
+        select activityId
+        from `tbl_clue_activity_relation`
+        where clueId = #{clueId}
+    </select>
+    <insert id="insertClueActivityRelation" parameterType="com.itCat.crmEX.workbench.domain.ClueActivityRelation">
+        insert into `tbl_clue_activity_relation`
+        (id, clueId, activityId)
+        values
+        <foreach collection="list" item="a" separator=",">
+            (#{a.id}, #{a.clueId}, #{a.activityId})
+        </foreach>
+    </insert>
+    <delete id="deleteClueActivityRelationByClueIdAndActivityId" parameterType="java.util.Map">
+        delete
+        from tbl_clue_activity_relation
+        where clueId = #{clueId}
+          and activityId = #{activityId}
+    </delete>
+    <delete id="deleteClueActivityRelationByClueIds" parameterType="java.lang.String">
+        delete
+        from tbl_clue_activity_relation
+        where clueId = #{clueId}
+    </delete>
+    <delete id="deleteClueActivityRelationByClueIds" parameterType="java.lang.String">
+        delete from tbl_clue_activity_relation
+        where clueId in
+        <foreach collection="array" item="clueId" open="(" separator="," close=")">
+            #{clueId}
+        </foreach>
+    </delete>
+    <delete id="deleteClueActivityRelationByActivityIds" parameterType="java.lang.String">
+        delete from tbl_clue_activity_relation
+        where activityId in
+        <foreach collection="array" item="activityId" open="(" separator="," close=")">
+            #{activityId}
+        </foreach>
+    </delete>
+</mapper>

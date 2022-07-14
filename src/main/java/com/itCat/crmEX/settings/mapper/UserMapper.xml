@@ -104,6 +104,7 @@
         <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
             and tu.expireTime between #{startTime} and #{endTime}
         </if>
+        order by tu.createTime asc
         limit #{beginPage}, #{pageSize}
     </select>
     <select id="selectUserCountByUsername" parameterType="java.lang.String" resultType="int">

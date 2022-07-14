@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.CustomerRemarkMapper">
+    <insert id="insertCustomerRemark" parameterType="com.itCat.crmEX.workbench.domain.CustomerRemark">
+        insert into `tbl_customer_remark`
+            (id, notePerson, noteContent, noteTime, editFlag, customerId)
+            value (#{id}, #{notePerson}, #{noteContent}, #{noteTime}, #{editFlag}, #{customerId})
+    </insert>
+    <insert id="insertCustomerRemarks" parameterType="com.itCat.crmEX.workbench.domain.CustomerRemark">
+        insert into `tbl_customer_remark`
+        (id, notePerson, noteContent, noteTime, editFlag, customerId)
+        values
+        <foreach collection="list" item="r" separator=",">
+            (#{r.id}, #{r.notePerson}, #{r.noteContent}, #{r.noteTime}, #{r.editFlag}, #{r.customerId})
+        </foreach>
+    </insert>
+</mapper>

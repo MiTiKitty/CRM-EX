@@ -383,56 +383,56 @@
     <div id="navigation" style="left: 0px; position: relative; width: 18%; height: 100%; overflow:auto;">
 
         <ul id="no1" class="nav nav-pills nav-stacked">
-            <li class="liClass"><a href="${pageContext.request.contextPath}/workbench/main/index.do" target="workAreaFrame"><span
+            <li class="liClass" title="工作台"><a href="${pageContext.request.contextPath}/workbench/main/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-home"></span><span name="listname"> 工作台</span></a></li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="动态"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-tag"></span><span name="listname"> 动态</span></a></li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="审批"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-time"></span><span name="listname"> 审批</span></a></li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="客户公海"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-user"></span><span name="listname"> 客户公海</span></a></li>
-            <li class="liClass"><a href="${pageContext.request.contextPath}/workbench/activity/index.do" target="workAreaFrame"><span
+            <li class="liClass" title="市场活动"><a href="${pageContext.request.contextPath}/workbench/activity/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-play-circle"></span><span name="listname"> 市场活动</span></a></li>
-            <li class="liClass"><a href="clue/index.html" target="workAreaFrame"><span
+            <li class="liClass" title="线索（潜在客户）"><a href="${pageContext.request.contextPath}/workbench/clue/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-search"></span><span name="listname"> 线索（潜在客户）</span></a></li>
-            <li class="liClass"><a href="customer/index.html" target="workAreaFrame"><span
+            <li class="liClass" title="客户"><a href="customer/index.html" target="workAreaFrame"><span
                     class="glyphicon glyphicon-user"></span><span name="listname"> 客户</span></a></li>
-            <li class="liClass"><a href="contacts/index.html" target="workAreaFrame"><span
+            <li class="liClass" title="联系人"><a href="contacts/index.html" target="workAreaFrame"><span
                     class="glyphicon glyphicon-earphone"></span><span name="listname"> 联系人</span></a></li>
-            <li class="liClass"><a href="transaction/index.html" target="workAreaFrame"><span
+            <li class="liClass" title="交易（商机）"><a href="transaction/index.html" target="workAreaFrame"><span
                     class="glyphicon glyphicon-usd"></span><span name="listname"> 交易（商机）</span></a></li>
-            <li class="liClass"><a href="visit/index.html" target="workAreaFrame"><span
+            <li class="liClass" title="售后回访"><a href="visit/index.html" target="workAreaFrame"><span
                     class="glyphicon glyphicon-phone-alt"></span><span name="listname"> 售后回访</span></a></li>
-            <li class="liClass">
+            <li class="liClass" title="统计图表">
                 <a href="#no2" class="collapsed" data-toggle="collapse"><span
                         class="glyphicon glyphicon-stats"></span><span name="listname"> 统计图表</span></a>
                 <ul id="no2" class="nav nav-pills nav-stacked collapse">
-                    <li class="liClass"><a href="chart/activity/index.html"
+                    <li class="liClass" title="市场活动统计图表"><a href="chart/activity/index.html"
                                            target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 市场活动统计图表</span></a>
                     </li>
-                    <li class="liClass"><a href="chart/clue/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span
+                    <li class="liClass" title="线索统计图表"><a href="chart/clue/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 线索统计图表</span></a>
                     </li>
-                    <li class="liClass"><a href="chart/customerAndContacts/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span
+                    <li class="liClass" title="客户和联系人统计图表"><a href="chart/customerAndContacts/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span><span
                             name="listname"> 客户和联系人统计图表</span></a></li>
-                    <li class="liClass"><a href="chart/transaction/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span
+                    <li class="liClass" title="交易统计图表"><a href="chart/transaction/index.html" target="workAreaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span><span name="listname"> 交易统计图表</span></a>
                     </li>
                 </ul>
             </li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="报表"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-file"></span><span name="listname"> 报表</span></a></li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="销售订单"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-shopping-cart"></span><span name="listname"> 销售订单</span></a></li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="发货单"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-send"></span><span name="listname"> 发货单</span></a></li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="跟进"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-earphone"></span><span name="listname"> 跟进</span></a></li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="产品"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-leaf"></span><span name="listname"> 产品</span></a></li>
-            <li class="liClass"><a href="javascript:void(0);" target="workAreaFrame"><span
+            <li class="liClass" title="报价"><a href="javascript:void(0);" target="workAreaFrame"><span
                     class="glyphicon glyphicon-usd"></span><span name="listname"> 报价</span></a></li>
         </ul>
 

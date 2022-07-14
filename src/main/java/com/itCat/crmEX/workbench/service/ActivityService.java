@@ -71,6 +71,30 @@ public interface ActivityService {
     Activity queryActivityForDetailById(String id);
 
     /**
+     * 根据线索id查找该线索所关联的市场活动信息
+     *
+     * @param clueId
+     * @return
+     */
+    List<Activity> queryActivityForClueRelationByClueId(String clueId);
+
+    /**
+     * 根据市场活动名称模糊查询还未与线索相关联的市场活动信息
+     *
+     * @param map
+     * @return
+     */
+    List<Activity> queryActivityByName(Map<String, Object> map);
+
+    /**
+     * 根据市场活动名称模糊查询已与线索相关联的市场活动信息
+     *
+     * @param map
+     * @return
+     */
+    List<Activity> queryActivityForClueConvertByName(Map<String, Object> map);
+
+    /**
      * 批量导入市场活动
      *
      * @param activityList

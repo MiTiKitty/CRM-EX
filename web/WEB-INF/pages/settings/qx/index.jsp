@@ -338,7 +338,7 @@
 <div id="center" style="position: absolute;top: 50px; bottom: 30px; left: 0px; right: 0px;">
 
     <!-- 导航 -->
-    <div id="navigation" style="left: 0px; width: 18%; position: relative; height: 100%; overflow:auto;">
+    <div id="navigation" style="left: 0px; width: 10%; position: relative; height: 100%; overflow:auto;">
 
         <ul id="no1" class="nav nav-pills nav-stacked">
             <li class="liClass"><a href="${pageContext.request.contextPath}/settings/qx/permission/index.do"
@@ -355,7 +355,7 @@
     </div>
 
     <!-- 工作区 -->
-    <div id="workarea" style="position: absolute; top : 0px; margin-left: 18%; width: 82%; height: 100%;">
+    <div id="workarea" style="position: absolute; top : 0px; margin-left: 10%; width: 90%; height: 100%;">
         <iframe style="border-width: 0px; width: 100%; height: 100%;" name="workAreaFrame"></iframe>
     </div>
 

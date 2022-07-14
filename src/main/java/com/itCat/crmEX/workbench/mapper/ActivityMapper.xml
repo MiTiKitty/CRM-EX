@@ -163,6 +163,41 @@
                  join `tbl_user` tu2 on ta.createBy = tu2.id
                  left outer join `tbl_user` tu3 on ta.editBy = tu3.id
     </select>
+    <select id="selectActivityForClueRelationByClueId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id, ta.name, ta.startDate, ta.endDate, tu.name as owner
+        from tbl_activity ta
+                 join tbl_user tu on ta.owner = tu.id
+        where ta.id in (
+            select activityId
+            from tbl_clue_activity_relation
+            where clueId = #{clueId}
+        )
+    </select>
+    <select id="selectActivityForClueByName" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id, ta.name, ta.startDate, ta.endDate, tu.name as owner
+        from tbl_activity ta
+                 join tbl_user tu on ta.owner = tu.id
+        where ta.name like #{name}
+          and ta.id not in (
+            select activityId
+            from tbl_clue_activity_relation
+            where clueId = #{clueId}
+        )
+    </select>
+    <select id="selectActivityForClueConvertByName" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id, ta.name, ta.startDate, ta.endDate, tu.name as owner
+        from tbl_activity ta
+                 join tbl_user tu on ta.owner = tu.id
+        where ta.name like #{name}
+          and ta.id in (
+            select activityId
+            from tbl_clue_activity_relation
+            where clueId = #{clueId}
+        )
+    </select>
     <insert id="insertActivities" parameterType="com.itCat.crmEX.workbench.domain.Activity">
         insert into `tbl_activity`
         (id, owner, source, name, state, startDate, endDate, budgetCost, description, createBy, createTime)

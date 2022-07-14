@@ -164,6 +164,8 @@ public class ActivityController {
         Activity activity = new Activity();
         activity.setId(id);
         setActivityField(owner, source, name, state, startDate, endDate, budgetCost, description, sessionUser, activity);
+        activity.setEditBy(sessionUser.getId());
+        activity.setEditTime(DateUtils.formatDate(new Date(), Constants.DATETIME_FORMAT));
         try {
             int result = activityService.editActivityById(activity);
             if (result > 0) {

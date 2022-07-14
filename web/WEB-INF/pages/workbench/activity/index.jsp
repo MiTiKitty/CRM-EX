@@ -168,7 +168,7 @@
                         $("#activityId").val(data.id);
                         $("#edit-owner").val(data.owner);
                         $("#edit-ActivityName").val(data.name);
-                        $("#edit-sourcee").val(data.source);
+                        $("#edit-source").val(data.source);
                         $("#edit-state").val(data.state);
                         $("#edit-startDate").val(data.startDate);
                         $("#edit-endDate").val(data.endDate);

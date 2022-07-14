@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.ContactsRemarkMapper">
+    <insert id="insertContactsRemark" parameterType="com.itCat.crmEX.workbench.domain.ContactsRemark">
+        insert into `tbl_contacts_remark`
+            (id, notePerson, noteContent, noteTime, editFlag, contactsId)
+            value (#{id}, #{notePerson}, #{noteContent}, #{noteTime}, #{editFlag}, #{contactsId})
+    </insert>
+    <insert id="insertContactsRemarks" parameterType="com.itCat.crmEX.workbench.domain.ContactsRemark">
+        insert into `tbl_contacts_remark`
+        (id, notePerson, noteContent, noteTime, editFlag, contactsId)
+        values
+        <foreach collection="list" item="r" separator=",">
+            (#{r.id}, #{r.notePerson}, #{r.noteContent}, #{r.noteTime}, #{r.editFlag}, #{r.contactsId})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.ClueMapper">
+    <sql id="condition">
+        <where>
+            <if test="fullName != null and fullName != ''">
+                and tc.fullName like concat('%', #{fullName}, '%')
+            </if>
+            <if test="company != null and company != ''">
+                and tc.company like concat('%', #{company}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and tc.phone like concat('%', #{phone}, '%')
+            </if>
+            <if test="mphone != null and mphone != ''">
+                and tc.mphone like concat('%', #{mphone}, '%')
+            </if>
+            <if test="source != null and source != ''">
+                and tc.source = #{source}
+            </if>
+            <if test="owner != null and owner != ''">
+                and tc.owner = #{owner}
+            </if>
+            <if test="state != null and state != ''">
+                and tc.state = #{state}
+            </if>
+        </where>
+    </sql>
+    <select id="selectClueByCondition" parameterType="java.util.Map" resultType="com.itCat.crmEX.workbench.domain.Clue">
+        select tc.id, tc.fullName, tc.appellation, tc.company, tc.phone, tc.mphone, tc.source, tu.name as owner,
+        tc.state
+        from tbl_clue tc
+        join tbl_user tu on tc.owner = tu.id
+        <include refid="condition"/>
+        order by tc.createTime asc
+        limit #{beginPage}, #{pageSize}
+    </select>
+    <select id="selectAllClueCountByCondition" parameterType="java.util.Map" resultType="int">
+        select count(tc.id)
+        from tbl_clue tc
+        <include refid="condition"/>
+    </select>
+    <select id="selectClueById" parameterType="java.lang.String" resultType="com.itCat.crmEX.workbench.domain.Clue">
+        select id,
+               owner,
+               company,
+               phone,
+               website,
+               grade,
+               industry,
+               address,
+               description,
+               fullName,
+               appellation,
+               source,
+               email,
+               mphone,
+               job,
+               state,
+               contactSummary,
+               nextContactTime
+        from `tbl_clue`
+        where id = #{id}
+    </select>
+    <select id="selectClueForDetailById" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Clue">
+        select tc.id,
+               tu1.name as owner,
+               tc.company,
+               tc.phone,
+               tc.website,
+               tc.grade,
+               tc.industry,
+               tc.address,
+               tc.description,
+               tc.fullName,
+               tc.appellation,
+               tc.source,
+               tc.email,
+               tc.mphone,
+               tc.job,
+               tc.state,
+               tc.contactSummary,
+               tc.nextContactTime,
+               tu2.name as createBy,
+               tu3.name as editBy,
+               tc.createTime,
+               tc.editTime
+        from `tbl_clue` tc
+                 join tbl_user tu1 on tc.owner = tu1.id
+                 join tbl_user tu2 on tc.createBy = tu2.id
+                 left outer join tbl_user tu3 on tc.editBy = tu3.id
+        where tc.id = #{id}
+    </select>
+    <select id="selectClueForConvertById" parameterType="java.lang.String" resultType="com.itCat.crmEX.workbench.domain.Clue">
+        select id, fullName, appellation, company
+        from `tbl_clue`
+        where id = #{id}
+    </select>
+    <insert id="insertClue" parameterType="com.itCat.crmEX.workbench.domain.Clue">
+        insert into `tbl_clue`
+        (id, owner, company, phone, website, grade, industry, address, description, fullName, appellation, source,
+         email, mphone, job, state, createBy, createTime, contactSummary, nextContactTime)
+            value (#{id}, #{owner}, #{company}, #{phone}, #{website}, #{grade}, #{industry}, #{address}, #{description},
+                   #{fullName}, #{appellation}, #{source}, #{email}, #{mphone}, #{job}, #{state}, #{createBy},
+                   #{createTime}, #{contactSummary}, #{nextContactTime})
+    </insert>
+    <update id="updateClueById" parameterType="com.itCat.crmEX.workbench.domain.Clue">
+        update `tbl_clue`
+        set owner           = #{owner},
+            company         = #{company},
+            phone           = #{phone},
+            website         = #{website},
+            grade           = #{grade},
+            industry        = #{industry},
+            address         = #{address},
+            description     = #{description},
+            fullName        = #{fullName},
+            appellation     = #{appellation},
+            source          = #{source},
+            email           = #{email},
+            mphone          = #{mphone},
+            job             = #{job},
+            state           = #{state},
+            contactSummary  = #{contactSummary},
+            nextContactTime = #{nextContactTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteClueById" parameterType="java.lang.String">
+        delete from tbl_clue where id = #{id}
+    </delete>
+    <delete id="deleteClueByIds" parameterType="java.lang.String">
+        delete from tbl_clue where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

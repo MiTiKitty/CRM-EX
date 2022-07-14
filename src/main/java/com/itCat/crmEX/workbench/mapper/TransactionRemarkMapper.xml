@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.TransactionRemarkMapper">
+    <insert id="insertTransactionRemarks" parameterType="com.itCat.crmEX.workbench.domain.TransactionRemark">
+        insert into `tbl_transaction_remark`
+        (id, notePerson, noteContent, noteTime, editFlag, transactionId)
+        values
+        <foreach collection="list" item="r" separator=",">
+            (#{r.id}, #{r.notePerson}, #{r.noteContent}, #{r.noteTime}, #{r.editFlag}, #{r.transactionId})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itCat.crmEX.workbench.mapper.ClueRemarkMapper">
+    <select id="selectClueRemarkByClueId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.ClueRemark">
+        select tcr.id,
+               tu1.name as notePerson,
+               tcr.noteContent,
+               tcr.noteTime,
+               tu2.name as editPerson,
+               tcr.editTime,
+               tcr.editFlag
+        from tbl_clue_remark tcr
+                 join tbl_user tu1 on tcr.notePerson = tu1.id
+                 left outer join tbl_user tu2 on tcr.editPerson = tu2.id
+        where tcr.clueId = #{clueId}
+    </select>
+    <select id="selectClueRemarkForConvertByClueId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.ClueRemark">
+        select id,
+               notePerson,
+               noteContent,
+               noteTime,
+               editPerson,
+               editTime,
+               editFlag,
+               clueId
+        from `tbl_clue_remark`
+        where clueId = #{clueId}
+    </select>
+    <insert id="insertClueRemark" parameterType="com.itCat.crmEX.workbench.domain.ClueRemark">
+        insert into `tbl_clue_remark`
+            (id, notePerson, noteContent, noteTime, editFlag, clueId)
+            value (#{id}, #{notePerson}, #{noteContent}, #{noteTime}, #{editFlag}, #{clueId})
+    </insert>
+    <update id="updateClueRemarkById" parameterType="com.itCat.crmEX.workbench.domain.ClueRemark">
+        update `tbl_clue_remark`
+        set noteContent = #{noteContent},
+            editPerson  = #{editPerson},
+            editTime    = #{editTime},
+            editFlag    = #{editFlag}
+        where id = #{id}
+    </update>
+    <delete id="deleteClueRemarkById" parameterType="java.lang.String">
+        delete
+        from tbl_clue_remark
+        where id = #{id}
+    </delete>
+    <delete id="deleteClueRemarkByClueId" parameterType="java.lang.String">
+        delete
+        from tbl_clue_remark
+        where clueId = #{clueId}
+    </delete>
+    <delete id="deleteClueRemarkByClueIds" parameterType="java.lang.String">
+        delete from tbl_clue_remark where clueId in
+        <foreach collection="array" item="clueId" open="(" separator="," close=")">
+            #{clueId}
+        </foreach>
+    </delete>
+</mapper>
