@@ -1,6 +1,109 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itCat.crmEX.workbench.mapper.ContactsMapper">
+    <select id="selectContactsByCondition" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.workbench.domain.Contacts">
+        select tc.id, tu.name as owner, tc.fullName, t.name as customerName, tc.source, tc.birth
+        from `tbl_contacts` tc
+        join tbl_user tu on tc.owner = tu.id
+        join tbl_customer t on tc.customerId = t.id
+        <where>
+            <if test="owner != null and owner != ''">
+                and tc.owner = #{owner}
+            </if>
+            <if test="fullName != null and fullName != ''">
+                and tc.fullName like concat('%', #{fullName}, '%')
+            </if>
+            <if test="name != null and name != ''">
+                and t.name like concat('%', #{name} , '%')
+            </if>
+            <if test="source != null and source != ''">
+                and tc.source = #{source}
+            </if>
+            <if test="birth != null and birth != ''">
+                and tc.birth > #{birth}
+            </if>
+        </where>
+        order by tc.createTime asc
+        limit #{beginPage}, #{pageSize}
+    </select>
+    <select id="selectContactsCountByCondition" parameterType="java.util.Map" resultType="int">
+        select count(tc.id)
+        from `tbl_contacts` tc
+        join tbl_customer t on tc.customerId = t.id
+        <where>
+            <if test="owner != null and owner != ''">
+                and tc.owner = #{owner}
+            </if>
+            <if test="fullName != null and fullName != ''">
+                and tc.fullName like concat('%', #{fullName}, '%')
+            </if>
+            <if test="name != null and name != ''">
+                and t.name like concat('%', #{name} , '%')
+            </if>
+            <if test="source != null and source != ''">
+                and tc.source = #{source}
+            </if>
+            <if test="birth != null and birth != ''">
+                and tc.birth > #{birth}
+            </if>
+        </where>
+    </select>
+    <select id="selectContactsForDetailById" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Contacts">
+        select tc.id,
+               tu1.name as owner,
+               tc.source,
+               tc.appellation,
+               tc.fullName,
+               tc.email,
+               tc.job,
+               tc.mphone,
+               tc.description,
+               tc.address,
+               tc.birth,
+               t.name   as customerName,
+               tc.customerId,
+               tu2.name as createBy,
+               tc.createTime,
+               tu3.name as editBy,
+               tc.editTime,
+               tc.contactSummary,
+               tc.nextContactTime
+        from `tbl_contacts` tc
+                 join tbl_user tu1 on tc.owner = tu1.id
+                 join tbl_customer t on tc.customerId = t.id
+                 join tbl_user tu2 on tc.createBy = tu2.id
+                 left outer join tbl_user tu3 on tc.editBy = tu3.id
+        where tc.id = #{id}
+    </select>
+    <select id="selectContactsForCustomerDetailByCustomerId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Contacts">
+        select id, fullName, email, mphone
+        from tbl_contacts
+        where customerId = #{customerId}
+    </select>
+    <select id="selectContactsById" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Contacts">
+        select tc.id,
+               tc.owner,
+               tc.source,
+               tc.appellation,
+               tc.fullName,
+               tc.email,
+               tc.job,
+               tc.mphone,
+               tc.description,
+               tc.address,
+               tc.birth,
+               tc.customerId,
+               tc.contactSummary,
+               tc.nextContactTime,
+               t.name as customerName
+        from tbl_contacts tc
+                 join tbl_customer t on tc.customerId = t.id
+        where tc.id = #{id}
+    </select>
     <insert id="insertContacts" parameterType="com.itCat.crmEX.workbench.domain.Contacts">
         insert into `tbl_contacts`
         (id, owner, source, appellation, fullName, email, job, mphone, description, address, birth, customerId,
@@ -9,4 +112,30 @@
                    #{address}, #{birth}, #{customerId}, #{createBy}, #{createTime}, #{contactSummary},
                    #{nextContactTime})
     </insert>
+    <update id="updateContactsById" parameterType="com.itCat.crmEX.workbench.domain.Contacts">
+        update `tbl_contacts`
+        set owner           = #{owner},
+            source          = #{source},
+            appellation     = #{appellation},
+            fullName        = #{fullName},
+            email           = #{email},
+            job             = #{job},
+            mphone          = #{mphone},
+            description     = #{description},
+            address         = #{address},
+            birth           = #{birth},
+            customerId      = #{customerId},
+            editBy          = #{editBy},
+            editTime        = #{editTime},
+            contactSummary  = #{contactSummary},
+            nextContactTime = #{nextContactTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteContactsByIds" parameterType="java.lang.String">
+        delete from `tbl_contacts`
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

@@ -84,6 +84,7 @@ public class ClueServiceImpl implements ClueService {
 
     @Override
     public void removeClueByIds(String[] ids) {
+        clueActivityRelationMapper.deleteClueActivityRelationByClueIds(ids);
         clueRemarkMapper.deleteClueRemarkByClueIds(ids);
         clueMapper.deleteClueByIds(ids);
     }

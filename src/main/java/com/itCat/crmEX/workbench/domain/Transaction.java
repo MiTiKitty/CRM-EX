@@ -38,13 +38,19 @@ public class Transaction {
 
     private String nextContactTime;
 
+    private Customer customer;
+
+    private Contacts contacts;
+
+    private Activity activity;
+
     public Transaction() {
     }
 
     public Transaction(String id, String owner, Long amountOfMoney, String name, String expectedClosingDate,
                        String customerId, String stage, String type, String source, String activityId, String contactsId,
                        String description, String createBy, String createTime, String editBy, String editTime,
-                       String contactSummary, String nextContactTime) {
+                       String contactSummary, String nextContactTime, Customer customer, Contacts contacts, Activity activity) {
         this.id = id;
         this.owner = owner;
         this.amountOfMoney = amountOfMoney;
@@ -63,6 +69,9 @@ public class Transaction {
         this.editTime = editTime;
         this.contactSummary = contactSummary;
         this.nextContactTime = nextContactTime;
+        this.customer = customer;
+        this.contacts = contacts;
+        this.activity = activity;
     }
 
     public String getId() {
@@ -209,6 +218,30 @@ public class Transaction {
         this.nextContactTime = nextContactTime;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Contacts getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Contacts contacts) {
+        this.contacts = contacts;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
@@ -230,6 +263,9 @@ public class Transaction {
                 ", editTime='" + editTime + '\'' +
                 ", contactSummary='" + contactSummary + '\'' +
                 ", nextContactTime='" + nextContactTime + '\'' +
+                ", customer=" + customer +
+                ", contacts=" + contacts +
+                ", activity=" + activity +
                 '}';
     }
 }

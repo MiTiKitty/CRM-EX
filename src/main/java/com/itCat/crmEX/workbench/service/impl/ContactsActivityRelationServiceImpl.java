@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("contactsActivityRelationService")
 public class ContactsActivityRelationServiceImpl implements ContactsActivityRelationService {
@@ -17,5 +18,10 @@ public class ContactsActivityRelationServiceImpl implements ContactsActivityRela
     @Override
     public int saveContactsActivityRelation(List<ContactsActivityRelation> relationList) {
         return contactsActivityRelationMapper.insertContactsActivityRelations(relationList);
+    }
+
+    @Override
+    public int removeContactsActivityRelation(Map<String, Object> map) {
+        return contactsActivityRelationMapper.deleteContactsActivityRelation(map);
     }
 }

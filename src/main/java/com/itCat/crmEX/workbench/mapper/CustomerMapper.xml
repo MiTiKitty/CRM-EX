@@ -1,10 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itCat.crmEX.workbench.mapper.CustomerMapper">
+    <select id="selectCustomerByCondition" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.workbench.domain.Customer">
+        select tc.id, tc.name, tu.name as owner, tc.phone, tc.website
+        from `tbl_customer` tc
+        join tbl_user tu on tc.owner = tu.id
+        <where>
+            <if test="name != null and name != ''">
+                and tc.name like concat('%', #{name}, '%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and tc.owner = #{owner}
+            </if>
+            <if test="phone != null and phone != ''">
+                and tc.phone like concat('%', #{phone}, '%')
+            </if>
+            <if test="website != null and website != ''">
+                and tc.website like concat('%', #{website}, '%')
+            </if>
+        </where>
+        order by tc.createTime asc
+        limit #{beginPage}, #{pageSize}
+    </select>
+    <select id="selectCustomerCountByCondition" parameterType="java.util.Map" resultType="int">
+        select count(tc.id)
+        from `tbl_customer` tc
+        <where>
+            <if test="name != null and name != ''">
+                and tc.name like concat('%', #{name}, '%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and tc.owner = #{owber}
+            </if>
+            <if test="phone != null and phone != ''">
+                and tc.phone like concat('%', #{phone}, '%')
+            </if>
+            <if test="website != null and website != ''">
+                and tc.website like concat('%', #{website}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="selectCustomerById" parameterType="java.lang.String" resultType="com.itCat.crmEX.workbench.domain.Customer">
+        select id, owner, name, grade, phone, website, industry, description, address
+        from `tbl_customer`
+        where id = #{id}
+    </select>
+    <select id="selectCustomerForDetailById" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Customer">
+        select tc.id,
+               tu1.name as owner,
+               tc.name,
+               tc.grade,
+               tc.phone,
+               tc.website,
+               tc.industry,
+               tc.description,
+               tc.address,
+               tu2.name as createBy,
+               tc.createTime,
+               tu3.name as editBy,
+               tc.editTime
+        from `tbl_customer` tc
+                 join tbl_user tu1 on tc.owner = tu1.id
+                 join tbl_user tu2 on tc.createBy = tu2.id
+                 left outer join tbl_user tu3 on tc.editBy = tu3.id
+        where tc.id = #{id}
+    </select>
+    <select id="selectCustomerByName" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Customer">
+        select id, name
+        from tbl_customer
+        where name like #{name}
+        order by createTime asc
+    </select>
     <insert id="insertCustomer" parameterType="com.itCat.crmEX.workbench.domain.Customer">
         insert into `tbl_customer`
         (id, owner, name, grade, phone, website, industry, description, address, createBy, createTime)
             value (#{id}, #{owner}, #{name}, #{grade}, #{phone}, #{website}, #{industry}, #{description}, #{address},
                    #{createBy}, #{createTime})
     </insert>
+    <update id="updateCustomerById" parameterType="com.itCat.crmEX.workbench.domain.Customer">
+        update `tbl_customer`
+        set owner       = #{owner},
+            name        = #{name},
+            grade       = #{grade},
+            phone       = #{phone},
+            website     = #{website},
+            industry    = #{industry},
+            description = #{description},
+            address     = #{address},
+            editBy      = #{editBy},
+            editTime    = #{editTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteCustomerByIds" parameterType="java.lang.String">
+        delete from `tbl_customer`
+        where id in
+        <foreach collection="array" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

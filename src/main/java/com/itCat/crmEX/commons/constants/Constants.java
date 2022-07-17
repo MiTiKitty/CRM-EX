@@ -28,7 +28,7 @@ public class Constants {
     /**
      * 具体时间格式，年-月-日 时:分:秒
      */
-    public static final String DATETIME_FORMAT = "yyyy-MM-dd hh:mm:dd";
+    public static final String DATETIME_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
     /**
      * 未修改过代码：0

@@ -26,6 +26,21 @@
         let isActivity = false;
 
         $(function () {
+            //设置日历窗口
+            $(".myDate").datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd",
+                pickerPosition: 'top-left',
+                clearBtn: true
+            });
+
             $("#isCreateTransaction").click(function () {
                 if (this.checked) {
                     $("#create-transaction2").show(200);

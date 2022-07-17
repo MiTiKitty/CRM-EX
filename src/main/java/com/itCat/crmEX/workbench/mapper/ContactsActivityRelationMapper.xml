@@ -10,4 +10,17 @@
             (#{r.id}, #{r.contactsId}, #{r.activityId})
         </foreach>
     </insert>
+    <delete id="deleteContactsActivityRelation" parameterType="java.util.Map">
+        delete
+        from `tbl_contacts_activity_relation`
+        where activityId = #{activityId} and contactsId = #{contactsId}
+    </delete>
+    <delete id="deleteContactsActivityByContactsIds" parameterType="java.lang.String">
+        delete
+        from tbl_contacts_activity_relation
+        where contactsId in
+        <foreach collection="array" item="contactsId" open="(" separator="," close=")">
+            #{contactsId}
+        </foreach>
+    </delete>
 </mapper>

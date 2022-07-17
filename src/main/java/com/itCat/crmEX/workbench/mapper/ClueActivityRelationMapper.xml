@@ -21,7 +21,7 @@
         where clueId = #{clueId}
           and activityId = #{activityId}
     </delete>
-    <delete id="deleteClueActivityRelationByClueIds" parameterType="java.lang.String">
+    <delete id="deleteClueActivityRelationByClueId" parameterType="java.lang.String">
         delete
         from tbl_clue_activity_relation
         where clueId = #{clueId}

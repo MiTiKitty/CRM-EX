@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itCat.crmEX.workbench.mapper.ContactsRemarkMapper">
+    <select id="selectContactsRemarkByContactsId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.ContactsRemark">
+        select tcr.id,
+               tu1.name as notePerson,
+               noteContent,
+               noteTime,
+               tu2.name as editPerson,
+               tcr.editTime,
+               editFlag,
+               contactsId
+        from `tbl_contacts_remark` tcr
+                 join tbl_user tu1 on tcr.notePerson = tu1.id
+                 left outer join tbl_user tu2 on tcr.editPerson = tu2.id
+        where tcr.contactsId = #{customerId}
+        order by tcr.noteTime asc
+    </select>
     <insert id="insertContactsRemark" parameterType="com.itCat.crmEX.workbench.domain.ContactsRemark">
         insert into `tbl_contacts_remark`
             (id, notePerson, noteContent, noteTime, editFlag, contactsId)
@@ -14,4 +30,24 @@
             (#{r.id}, #{r.notePerson}, #{r.noteContent}, #{r.noteTime}, #{r.editFlag}, #{r.contactsId})
         </foreach>
     </insert>
+    <update id="updateContactsRemarkById" parameterType="com.itCat.crmEX.workbench.domain.ContactsRemark">
+        update `tbl_contacts_remark`
+        set noteContent = #{noteContent},
+            editPerson  = #{editPerson},
+            editFlag    = #{editFlag},
+            editTime    = #{editTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteContactsRemarkById" parameterType="java.lang.String">
+        delete
+        from `tbl_contacts_remark`
+        where id = #{id}
+    </delete>
+    <delete id="deleteContactsRemarkByContactsIds" parameterType="java.lang.String">
+        delete from `tbl_contacts_remark`
+        where contactsId in
+        <foreach collection="array" item="contactsId" open="(" separator="," close=")">
+            #{contactsId}
+        </foreach>
+    </delete>
 </mapper>

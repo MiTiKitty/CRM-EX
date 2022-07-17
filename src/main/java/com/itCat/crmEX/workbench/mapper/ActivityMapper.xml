@@ -198,6 +198,41 @@
             where clueId = #{clueId}
         )
     </select>
+    <select id="selectActivityForClueRelationByContactsId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id, ta.name, ta.startDate, ta.endDate, tu.name as owner
+        from tbl_activity ta
+                 join tbl_user tu on ta.owner = tu.id
+        where ta.id in (
+            select activityId
+            from tbl_contacts_activity_relation
+            where contactsId = #{contactsId}
+        )
+    </select>
+    <select id="selectActivityForContactsByName" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id, ta.name, ta.startDate, ta.endDate, tu.name as owner
+        from tbl_activity ta
+                 join tbl_user tu on ta.owner = tu.id
+        where ta.name like #{name}
+          and ta.id not in (
+            select activityId
+            from tbl_contacts_activity_relation
+            where contactsId = #{contactsId}
+        )
+    </select>
+    <select id="selectActivityForContactsToTransactionByName" parameterType="java.util.Map"
+            resultType="com.itCat.crmEX.workbench.domain.Activity">
+        select ta.id, ta.name, ta.startDate, ta.endDate, tu.name as owner
+        from tbl_activity ta
+                 join tbl_user tu on ta.owner = tu.id
+        where ta.name like #{name}
+          and ta.id in (
+            select activityId
+            from tbl_contacts_activity_relation
+            where contactsId = #{contactsId}
+        )
+    </select>
     <insert id="insertActivities" parameterType="com.itCat.crmEX.workbench.domain.Activity">
         insert into `tbl_activity`
         (id, owner, source, name, state, startDate, endDate, budgetCost, description, createBy, createTime)

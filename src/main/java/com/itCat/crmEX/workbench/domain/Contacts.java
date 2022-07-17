@@ -38,12 +38,19 @@ public class Contacts {
 
     private String nextContactTime;
 
+    private String customerName;
+
+    private String showPerson;
+
+    private String showTime;
+
     public Contacts() {
     }
 
     public Contacts(String id, String owner, String source, String appellation, String fullName, String email,
                     String job, String mphone, String description, String address, String birth, String customerId,
-                    String createBy, String createTime, String editBy, String editTime, String contactSummary, String nextContactTime) {
+                    String createBy, String createTime, String editBy, String editTime, String contactSummary,
+                    String nextContactTime, String customerName, String showPerson, String showTime) {
         this.id = id;
         this.owner = owner;
         this.source = source;
@@ -62,6 +69,9 @@ public class Contacts {
         this.editTime = editTime;
         this.contactSummary = contactSummary;
         this.nextContactTime = nextContactTime;
+        this.customerName = customerName;
+        this.showPerson = showPerson;
+        this.showTime = showTime;
     }
 
     public String getId() {
@@ -208,6 +218,30 @@ public class Contacts {
         this.nextContactTime = nextContactTime;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getShowPerson() {
+        return showPerson;
+    }
+
+    public void setShowPerson(String showPerson) {
+        this.showPerson = showPerson;
+    }
+
+    public String getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(String showTime) {
+        this.showTime = showTime;
+    }
+
     @Override
     public String toString() {
         return "Contacts{" +
@@ -229,6 +263,9 @@ public class Contacts {
                 ", editTime='" + editTime + '\'' +
                 ", contactSummary='" + contactSummary + '\'' +
                 ", nextContactTime='" + nextContactTime + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", showPerson='" + showPerson + '\'' +
+                ", showTime='" + showTime + '\'' +
                 '}';
     }
 }

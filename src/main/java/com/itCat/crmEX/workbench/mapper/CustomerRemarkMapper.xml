@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itCat.crmEX.workbench.mapper.CustomerRemarkMapper">
+    <select id="selectAllCustomerRemarkByCustomerId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.CustomerRemark">
+        select tcr.id,
+               tu1.name as notePerson,
+               noteContent,
+               noteTime,
+               tu2.name as editPerson,
+               tcr.editTime,
+               editFlag,
+               customerId
+        from `tbl_customer_remark` tcr
+                 join tbl_user tu1 on tcr.notePerson = tu1.id
+                 left outer join tbl_user tu2 on tcr.editPerson = tu2.id
+        where tcr.customerId = #{customerId}
+        order by tcr.noteTime asc
+    </select>
     <insert id="insertCustomerRemark" parameterType="com.itCat.crmEX.workbench.domain.CustomerRemark">
         insert into `tbl_customer_remark`
             (id, notePerson, noteContent, noteTime, editFlag, customerId)
@@ -8,10 +24,30 @@
     </insert>
     <insert id="insertCustomerRemarks" parameterType="com.itCat.crmEX.workbench.domain.CustomerRemark">
         insert into `tbl_customer_remark`
-        (id, notePerson, noteContent, noteTime, editFlag, customerId)
+        (`id`, `notePerson`, `noteContent`, `noteTime`, `editFlag`, `customerId`)
         values
         <foreach collection="list" item="r" separator=",">
             (#{r.id}, #{r.notePerson}, #{r.noteContent}, #{r.noteTime}, #{r.editFlag}, #{r.customerId})
         </foreach>
     </insert>
+    <update id="updateCustomerRemarkById" parameterType="com.itCat.crmEX.workbench.domain.CustomerRemark">
+        update `tbl_customer_remark`
+        set noteContent = #{noteContent},
+            editPerson  = #{editPerson},
+            editFlag    = #{editFlag},
+            editTime    = #{editTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteCustomerRemarkById" parameterType="java.lang.String">
+        delete
+        from `tbl_customer_remark`
+        where id = #{id}
+    </delete>
+    <delete id="deleteCustomerByCustomerIds" parameterType="java.lang.String">
+        delete from `tbl_customer_remark`
+        where customerId in
+        <foreach collection="array" item="customerId" open="(" separator="," close=")">
+            #{customerId}
+        </foreach>
+    </delete>
 </mapper>

@@ -95,6 +95,30 @@ public interface ActivityService {
     List<Activity> queryActivityForClueConvertByName(Map<String, Object> map);
 
     /**
+     * 根据联系人id查找该线索所关联的市场活动信息
+     *
+     * @param contactsId
+     * @return
+     */
+    List<Activity> queryActivityForClueRelationByContactsId(String contactsId);
+
+    /**
+     * 根据市场活动名称模糊查询还未与联系人相关联的市场活动信息
+     *
+     * @param map
+     * @return
+     */
+    List<Activity> queryActivityForContactsByName(Map<String, Object> map);
+
+    /**
+     * 根据市场活动名称模糊查询已与联系人相关联的市场活动信息
+     *
+     * @param map
+     * @return
+     */
+    List<Activity> queryActivityForContactsToTransactionByName(Map<String, Object> map);
+
+    /**
      * 批量导入市场活动
      *
      * @param activityList

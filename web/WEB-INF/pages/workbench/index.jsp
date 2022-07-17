@@ -395,11 +395,11 @@
                     class="glyphicon glyphicon-play-circle"></span><span name="listname"> 市场活动</span></a></li>
             <li class="liClass" title="线索（潜在客户）"><a href="${pageContext.request.contextPath}/workbench/clue/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-search"></span><span name="listname"> 线索（潜在客户）</span></a></li>
-            <li class="liClass" title="客户"><a href="customer/index.html" target="workAreaFrame"><span
+            <li class="liClass" title="客户"><a href="${pageContext.request.contextPath}/workbench/customer/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-user"></span><span name="listname"> 客户</span></a></li>
-            <li class="liClass" title="联系人"><a href="contacts/index.html" target="workAreaFrame"><span
+            <li class="liClass" title="联系人"><a href="${pageContext.request.contextPath}/workbench/contacts/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-earphone"></span><span name="listname"> 联系人</span></a></li>
-            <li class="liClass" title="交易（商机）"><a href="transaction/index.html" target="workAreaFrame"><span
+            <li class="liClass" title="交易（商机）"><a href="/workbench/transaction/index.do" target="workAreaFrame"><span
                     class="glyphicon glyphicon-usd"></span><span name="listname"> 交易（商机）</span></a></li>
             <li class="liClass" title="售后回访"><a href="visit/index.html" target="workAreaFrame"><span
                     class="glyphicon glyphicon-phone-alt"></span><span name="listname"> 售后回访</span></a></li>

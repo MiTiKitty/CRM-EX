@@ -1,12 +1,201 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itCat.crmEX.workbench.mapper.TransactionMapper">
+    <resultMap id="BaseTransactionMap" type="com.itCat.crmEX.workbench.domain.Transaction">
+        <id column="id" property="id"/>
+        <result column="owner" property="owner"/>
+        <result column="amountOfMoney" property="amountOfMoney"/>
+        <result column="name" property="name"/>
+        <result column="expectedClosingDate" property="expectedClosingDate"/>
+        <result column="customerId" property="customerId"/>
+        <result column="stage" property="stage"/>
+        <result column="type" property="type"/>
+        <result column="source" property="source"/>
+        <result column="activityId" property="activityId"/>
+        <result column="contactsId" property="contactsId"/>
+        <result column="description" property="description"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createTime" property="createTime"/>
+        <result column="editBy" property="editBy"/>
+        <result column="editTime" property="editTime"/>
+        <result column="contactSummary" property="contactSummary"/>
+        <result column="nextContactTime" property="nextContactTime"/>
+        <association property="customer" javaType="com.itCat.crmEX.workbench.domain.Customer">
+            <id column="customerId" property="id"/>
+            <result column="tcName" property="name"/>
+        </association>
+        <association property="contacts" javaType="com.itCat.crmEX.workbench.domain.Contacts">
+            <id column="contactsId" property="id"/>
+            <result column="fullName" property="fullName"/>
+        </association>
+        <association property="activity" javaType="com.itCat.crmEX.workbench.domain.Activity">
+            <id column="activityId" property="id"/>
+            <result column="aName" property="name"/>
+        </association>
+    </resultMap>
+    <select id="selectTransactionByCondition" parameterType="java.util.Map"
+            resultMap="BaseTransactionMap">
+        select tt.id, tu.name as owner, tc.name as tcName, t.fullName as fullName, tt.name, tt.source, tt.stage
+        from `tbl_transaction` tt
+        join tbl_user tu on tt.owner = tu.id
+        join tbl_customer tc on tt.customerId = tc.id
+        join tbl_contacts t on tt.contactsId = t.id
+        <where>
+            <if test="owner != null and owner != ''">
+                and tt.owner = #{owner}
+            </if>
+            <if test="name != null and name != ''">
+                and tt.name like concat('%', #{name}, '%')
+            </if>
+            <if test="customer != null and customer != ''">
+                and tc.name like concat('%', #{customer}, '%')
+            </if>
+            <if test="fullName != null and fullName != ''">
+                and t.fullName like concat('%', #{fullName}, '%')
+            </if>
+            <if test="stage != null and stage != ''">
+                and tt.stage = #{stage}
+            </if>
+            <if test="type != null and type != ''">
+                and tt.type = #{type}
+            </if>
+            <if test="source != null and source != ''">
+                and tt.source = #{source}
+            </if>
+        </where>
+        order by tt.createTime asc
+        limit #{beginPage}, #{pageSize}
+    </select>
+    <select id="selectTransactionCountByCondition" parameterType="java.util.Map" resultType="int">
+        select count(tt.id)
+        from `tbl_transaction` tt
+        join tbl_user tu on tt.owner = tu.id
+        join tbl_customer tc on tt.customerId = tc.id
+        join tbl_contacts t on tt.contactsId = t.id
+        <where>
+            <if test="owner != null and owner != ''">
+                and tt.owner = #{owner}
+            </if>
+            <if test="name != null and name != ''">
+                and tt.name like concat('%', #{name}, '%')
+            </if>
+            <if test="customer != null and customer != ''">
+                and tc.name like concat('%', #{customer}, '%')
+            </if>
+            <if test="fullName != null and fullName != ''">
+                and t.fullName like concat('%', #{fullName}, '%')
+            </if>
+            <if test="stage != null and stage != ''">
+                and tt.stage = #{stage}
+            </if>
+            <if test="type != null and type != ''">
+                and tt.type = #{type}
+            </if>
+            <if test="source != null and source != ''">
+                and tt.source = #{source}
+            </if>
+        </where>
+    </select>
+    <select id="selectTransactionById" parameterType="java.lang.String" resultMap="BaseTransactionMap">
+        select tt.id,
+               tu.name as owner,
+               tt.amountOfMoney,
+               tt.name,
+               tt.expectedClosingDate,
+               tt.customerId,
+               tt.stage,
+               tt.type,
+               tt.source,
+               tt.activityId,
+               tt.contactsId,
+               tt.description,
+               tt.contactSummary,
+               tt.nextContactTime,
+               tc.name as tcName,
+               t.fullName,
+               ta.name as aName
+        from `tbl_transaction` tt
+                 join tbl_user tu on tt.owner = tu.id
+                 join tbl_customer tc on tt.customerId = tc.id
+                 join tbl_contacts t on tt.contactsId = t.id
+                 join tbl_activity ta on tt.activityId = ta.id
+        where tt.id = #{id}
+    </select>
+    <select id="selectTransactionForDetailById" parameterType="java.lang.String" resultMap="BaseTransactionMap">
+        select tt.id,
+               tu.name  as owner,
+               tt.amountOfMoney,
+               tt.name,
+               tt.expectedClosingDate,
+               tt.customerId,
+               tt.stage,
+               tt.type,
+               tt.source,
+               tt.activityId,
+               tt.contactsId,
+               tt.description,
+               tt.contactSummary,
+               tt.nextContactTime,
+               tc.name  as tcName,
+               t.fullName,
+               ta.name  as aName,
+               tu1.name as createBy,
+               tt.createTime,
+               tu2.name as editBy,
+               tt.editTime
+        from `tbl_transaction` tt
+                 join tbl_user tu on tt.owner = tu.id
+                 join tbl_customer tc on tt.customerId = tc.id
+                 join tbl_contacts t on tt.contactsId = t.id
+                 join tbl_activity ta on tt.activityId = ta.id
+                 join tbl_user tu1 on tt.createBy = tu1.id
+                 left outer join tbl_user tu2 on tt.editBy = tu2.id
+        where tt.id = #{id}
+    </select>
+    <select id="selectTransactionByCustomerId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Transaction">
+        select id, name, amountOfMoney, stage, type, expectedClosingDate
+        from tbl_transaction
+        where customerId = #{customerId}
+    </select>
+    <select id="selectTransactionByContactsId" parameterType="java.lang.String"
+            resultType="com.itCat.crmEX.workbench.domain.Transaction">
+        select id, name, amountOfMoney, stage, type, expectedClosingDate
+        from tbl_transaction
+        where contactsId = #{contactsId}
+    </select>
     <insert id="insertTransaction" parameterType="com.itCat.crmEX.workbench.domain.Transaction">
         insert into `tbl_transaction`
         (id, owner, amountOfMoney, name, expectedClosingDate, customerId, stage, type, source, activityId, contactsId,
          description, createBy, createTime, contactSummary, nextContactTime)
             value (#{id}, #{owner}, #{amountOfMoney}, #{name}, #{expectedClosingDate}, #{customerId}, #{stage}, #{type},
                    #{source}, #{activityId}, #{contactsId}, #{description}, #{createBy}, #{createTime},
-                   #{contactSummary, nextContactTime})
+                   #{contactSummary}, #{nextContactTime})
     </insert>
+    <update id="updateTransactionById" parameterType="com.itCat.crmEX.workbench.domain.Transaction">
+        update tbl_transaction
+        set owner               = #{owner},
+            amountOfMoney       = #{amountOfMoney},
+            name                = #{name},
+            expectedClosingDate = #{expectedClosingDate},
+            customerId          = #{customerId},
+            stage               = #{stage},
+            type                = #{type},
+            source              = #{source},
+            activityId          = #{activityId},
+            contactsId          = #{contactsId},
+            description         = #{description},
+            contactSummary      = #{contactSummary},
+            nextContactTime     = #{nextContactTime},
+            editBy              = #{editBy},
+            editTime            = #{editTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteTransactionByIds" parameterType="java.lang.String">
+        delete from tbl_transaction
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
