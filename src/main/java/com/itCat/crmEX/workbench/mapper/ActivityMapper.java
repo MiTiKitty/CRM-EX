@@ -84,7 +84,7 @@ public interface ActivityMapper {
      * @param contactsId
      * @return
      */
-    List<Activity> selectActivityForClueRelationByContactsId(String contactsId);
+    List<Activity> selectActivityForContactsRelationByContactsId(String contactsId);
 
     /**
      * 根据市场活动名称模糊查询还未与联系人相关联的市场活动信息

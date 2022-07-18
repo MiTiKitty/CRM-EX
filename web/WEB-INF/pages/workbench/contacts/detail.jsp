@@ -322,7 +322,7 @@
                 $("#editRemarkModal").modal("hide");
             });
 
-            //给删除图标谭家单击事件
+            //给删除图标添加单击事件
             $("#contactsRemark").on("click", "a[name='remove']", function () {
                 const id = $(this).attr("remarkId");
                 $.ajax({
@@ -342,6 +342,159 @@
                 });
             });
 
+            //给交易删除按钮添加单击事件
+            $("#transactionList").on("click", "a[name='remove']", function () {
+                const id = $(this).attr("tid");
+                $("#transactionId").val(id);
+                $("#removeTransactionModal").modal("show");
+            });
+
+            //给确认删除交易按钮添加单击事件
+            $("#confirmRemoveTransactionBtn").click(function () {
+                const id = $("#transactionId").val();
+                const ids = new Array();
+                ids.push(id);
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/workbench/transaction/removeTransaction.do",
+                    data: {
+                        id: ids
+                    },
+                    type: "post",
+                    dataType: "json",
+                    traditional: true,
+                    success: function (data) {
+                        if (data.code == "0") {
+                            alert(data.message);
+                        } else if (data.code == "1") {
+                            $("#tr-" + id).remove();
+                            $("#removeTransactionModal").modal("hide");
+                        }
+                    }
+                });
+            });
+
+            //给取消删除交易按钮添加单击事件
+            $("#closeRemoveTransactionBtn").click(function () {
+                $("#removeTransactionModal").modal("hide");
+            });
+
+            //给关联市场活动图标添加单击事件
+            $("#relation").click(function () {
+                $("#bundModal").modal("show");
+            });
+
+            //给名称输入框添加键盘弹起事件
+            $("#activityName").keyup(function (e) {
+                const name = $(this).val();
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/workbench/contacts/queryActivityByName.do",
+                    data:{
+                        name:name,
+                        contactsId:"${requestScope.contacts.id}"
+                    },
+                    type:"post",
+                    dataType:"json",
+                    success:function (data) {
+                        let htmlStr = "";
+                        $.each(data, function (index, obj) {
+                            htmlStr += "<tr>\n" +
+                                "                        <td><input value='"+obj.id+"' type=\"checkbox\"/></td>\n" +
+                                "                        <td>"+obj.name+"</td>\n" +
+                                "                        <td>"+obj.startDate+"</td>\n" +
+                                "                        <td>"+obj.endDate+"</td>\n" +
+                                "                        <td>"+obj.owner+"</td>\n" +
+                                "                    </tr>";
+                        });
+                        $("#queryActivityList").html(htmlStr);
+                    }
+                });
+            });
+
+            //给全选按钮添加单击事件
+            $("#allSelectBox").click(function () {
+                const isCheck = $(this).prop("checked");
+                $("#queryActivityList input[type='checkbox']").prop("checked", isCheck);
+            });
+
+            //给单个选择按钮添加单击事件
+            $("#queryActivityList").on("click", "input[type='checkbox']", function () {
+                const checkedSize = $("#queryActivityList input[type='checkbox']:checked").size();
+                const allSize = $("#queryActivityList input[type='checkbox']").size();
+                if (checkedSize == allSize) {
+                    $("#allSelectBox").prop("checked", true);
+                } else {
+                    $("#allSelectBox").prop("checked", false);
+                }
+            });
+
+            //给关联按钮添加单击事件
+            $("#confirmRelationBtn").click(function () {
+                const obj = $("#queryActivityList input[type='checkbox']:checked");
+                if (obj.length == 0){
+                    alert("至少需要选择一个进行关联");
+                    return;
+                }
+                const activityIds = new Array();
+                $.each(obj, function (index, o) {
+                    activityIds.push(o.value);
+                });
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/workbench/contacts/saveRelation.do",
+                    data:{
+                        activityIds:activityIds,
+                        contactsId:"${requestScope.contacts.id}"
+                    },
+                    type:"post",
+                    dataType:"json",
+                    traditional:true,
+                    success:function (data) {
+                        if (data.code == "0"){
+                            alert(data.message);
+                        }else if (data.code == "1"){
+                            let htmlStr = "";
+                            $.each(data.data, function (index, obj) {
+                                htmlStr = "<tr id=\"tr-"+obj.id+"\">\n" +
+                                    "                        <td>"+obj.name+"</td>\n" +
+                                    "                        <td>"+obj.startDate+"</td>\n" +
+                                    "                        <td>"+obj.endDate+"</td>\n" +
+                                    "                        <td>"+obj.owner+"</td>\n" +
+                                    "                        <td><a href=\"javascript:void(0);\" style=\"text-decoration: none;\" name=\"remove\"\n" +
+                                    "                               activityId=\""+obj.id+"\"><span\n" +
+                                    "                                class=\"glyphicon glyphicon-remove\"></span>解除关联</a></td>\n" +
+                                    "                    </tr>";
+                            });
+                            $("#activityList").append(htmlStr);
+                            $("#bundModal").modal("hide");
+                        }
+                    }
+                });
+            });
+
+            //给关闭关联窗口按钮添加单击事件
+            $("#closeRelationBtn").click(function () {
+                $("#bundModal").modal("hide");
+            });
+
+            //给取消关联图标添加单击事件
+            $("#activityList").on("click", "a[name='remove']", function () {
+                const activityId = $(this).attr("activityId");
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/workbench/contacts/relieveRelation.do",
+                    data:{
+                        activityId:activityId,
+                        contactsId:"${requestScope.contacts.id}"
+                    },
+                    type:"post",
+                    dataType:"json",
+                    success:function (data) {
+                        if (data.code == "0"){
+                            alert(data.message);
+                        }else if (data.code == "1"){
+                            $("#tr-" + activityId).remove();
+                        }
+                    }
+                });
+            });
         });
 
         /**
@@ -380,7 +533,7 @@
 </div>
 
 <!-- 联系人和市场活动关联的模态窗口 -->
-<div class="modal fade" id="bundActivityModal" role="dialog">
+<div class="modal fade" id="bundModal" role="dialog">
     <div class="modal-dialog" role="document" style="width: 80%;">
         <div class="modal-content">
             <div class="modal-header">
@@ -393,17 +546,16 @@
                 <div class="btn-group" style="position: relative; top: 18%; margin-left: 8px;">
                     <form class="form-inline" role="form">
                         <div class="form-group has-feedback">
-                            <input type="text" class="form-control" style="width: 300px;"
+                            <input id="activityName" type="text" class="form-control" style="width: 300px;"
                                    placeholder="请输入市场活动名称，支持模糊查询">
-                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                            <span id="search" class="glyphicon glyphicon-search form-control-feedback"></span>
                         </div>
                     </form>
                 </div>
-                <table id="activityTable2" class="table table-hover"
-                       style="width: 900px; position: relative;top: 10px;">
+                <table class="table table-hover" style="width: 900px; position: relative;top: 10px;">
                     <thead>
                     <tr style="color: #B3B3B3;">
-                        <td><input type="checkbox"/></td>
+                        <td><input id="allSelectBox" type="checkbox"/></td>
                         <td>名称</td>
                         <td>开始日期</td>
                         <td>结束日期</td>
@@ -411,27 +563,13 @@
                         <td></td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td><input type="checkbox"/></td>
-                        <td>发传单</td>
-                        <td>2020-10-10</td>
-                        <td>2020-10-20</td>
-                        <td>zhangsan</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"/></td>
-                        <td>发传单</td>
-                        <td>2020-10-10</td>
-                        <td>2020-10-20</td>
-                        <td>zhangsan</td>
-                    </tr>
+                    <tbody id="queryActivityList">
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">关联</button>
+                <button id="closeRelationBtn" type="button" class="btn btn-default">取消</button>
+                <button id="confirmRelationBtn" type="button" class="btn btn-primary">关联</button>
             </div>
         </div>
     </div>
@@ -609,6 +747,30 @@
     </div>
 </div>
 
+<!-- 删除交易的模态窗口 -->
+<div class="modal fade" id="removeTransactionModal" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 30%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="text" id="transactionId" hidden>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">删除交易</h4>
+            </div>
+            <div class="modal-body">
+                <p>您确定要删除该交易吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button id="closeRemoveTransactionBtn" type="button" class="btn btn-default">取消</button>
+                <button id="confirmRemoveTransactionBtn" type="button" class="btn btn-danger">删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <!-- 返回按钮 -->
 <div style="position: relative; top: 35px; margin-left: 10px;">
     <a href="javascript:void(0);" onclick="window.history.back();"><span class="glyphicon glyphicon-arrow-left"
@@ -774,36 +936,35 @@
             <h4>交易</h4>
         </div>
         <div style="position: relative;top: 0px;">
-            <table id="activityTable3" class="table table-hover" style="width: 900px;">
+            <table class="table table-hover" style="width: 900px;">
                 <thead>
                 <tr style="color: #B3B3B3;">
                     <td>名称</td>
                     <td>金额</td>
                     <td>阶段</td>
-                    <td>可能性</td>
                     <td>预计成交日期</td>
                     <td>类型</td>
-                    <td></td>
+                    <td>操作</td>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td><a href="../transaction/detail.jsp" style="text-decoration: none;">动力节点-交易01</a></td>
-                    <td>5,000</td>
-                    <td>谈判/复审</td>
-                    <td>90</td>
-                    <td>2017-02-07</td>
-                    <td>新业务</td>
-                    <td><a href="javascript:void(0);" data-toggle="modal" data-target="#unbundModal"
-                           style="text-decoration: none;"><span class="glyphicon glyphicon-remove"></span>删除</a></td>
-                </tr>
+                <tbody id="transactionList">
+                <c:forEach items="${requestScope.transactionList}" var="t">
+                    <tr id="tr-${t.id}">
+                        <td><a href="${pageContext.request.contextPath}/workbench/transaction/detail.do?id=${t.id}" style="text-decoration: none;">${t.name}</a></td>
+                        <td>${t.amountOfMoney}</td>
+                        <td>${t.stage}</td>
+                        <td>${t.expectedClosingDate}</td>
+                        <td>${t.type}</td>
+                        <td><a name="remove" tid="${t.id}" href="javascript:void(0);" style="text-decoration: none;"><span
+                                class="glyphicon glyphicon-remove"></span>删除</a></td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
 
         <div>
-            <a href="../transaction/create.jsp" style="text-decoration: none;"><span
-                    class="glyphicon glyphicon-plus"></span>新建交易</a>
+            <a href="${pageContext.request.contextPath}/workbench/transaction/create.do" style="text-decoration: none;"><span class="glyphicon glyphicon-plus"></span>新建交易</a>
         </div>
     </div>
 </div>
@@ -822,24 +983,27 @@
                     <td>开始日期</td>
                     <td>结束日期</td>
                     <td>所有者</td>
-                    <td></td>
+                    <td>操作</td>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td><a href="../activity/detail.jsp" style="text-decoration: none;">发传单</a></td>
-                    <td>2020-10-10</td>
-                    <td>2020-10-20</td>
-                    <td>zhangsan</td>
-                    <td><a href="javascript:void(0);" data-toggle="modal" data-target="#unbundActivityModal"
-                           style="text-decoration: none;"><span class="glyphicon glyphicon-remove"></span>解除关联</a></td>
-                </tr>
+                <tbody id="activityList">
+                <c:forEach items="${requestScope.activityList}" var="a">
+                    <tr id="tr-${a.id}">
+                        <td>${a.name}</td>
+                        <td>${a.startDate}</td>
+                        <td>${a.endDate}</td>
+                        <td>${a.owner}</td>
+                        <td><a href="javascript:void(0);" style="text-decoration: none;" name="remove"
+                               activityId="${a.id}"><span
+                                class="glyphicon glyphicon-remove"></span>解除关联</a></td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
 
         <div>
-            <a href="javascript:void(0);" data-toggle="modal" data-target="#bundActivityModal"
+            <a href="javascript:void(0);" id="relation"
                style="text-decoration: none;"><span class="glyphicon glyphicon-plus"></span>关联市场活动</a>
         </div>
     </div>

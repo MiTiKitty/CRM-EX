@@ -104,6 +104,11 @@
                  join tbl_customer t on tc.customerId = t.id
         where tc.id = #{id}
     </select>
+    <select id="selectContactsByFullNameAndByCustomerId" parameterType="java.lang.String" resultType="com.itCat.crmEX.workbench.domain.Contacts">
+        select id, fullName, mphone, email
+        from tbl_contacts
+        where fullName like #{fullName} and customerId = #{customerId}
+    </select>
     <insert id="insertContacts" parameterType="com.itCat.crmEX.workbench.domain.Contacts">
         insert into `tbl_contacts`
         (id, owner, source, appellation, fullName, email, job, mphone, description, address, birth, customerId,

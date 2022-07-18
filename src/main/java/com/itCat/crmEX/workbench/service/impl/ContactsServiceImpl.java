@@ -1,6 +1,7 @@
 package com.itCat.crmEX.workbench.service.impl;
 
 import com.itCat.crmEX.workbench.domain.Contacts;
+import com.itCat.crmEX.workbench.mapper.ContactsActivityRelationMapper;
 import com.itCat.crmEX.workbench.mapper.ContactsMapper;
 import com.itCat.crmEX.workbench.mapper.ContactsRemarkMapper;
 import com.itCat.crmEX.workbench.service.ContactsService;
@@ -18,6 +19,9 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Autowired
     private ContactsRemarkMapper contactsRemarkMapper;
+
+    @Autowired
+    private ContactsActivityRelationMapper contactsActivityRelationMapper;
 
     @Override
     public List<Contacts> queryContactsByCondition(Map<String, Object> map) {
@@ -45,6 +49,11 @@ public class ContactsServiceImpl implements ContactsService {
     }
 
     @Override
+    public List<Contacts> queryContactsByFullNameAndByCustomerId(Map<String, Object> map) {
+        return contactsMapper.selectContactsByFullNameAndByCustomerId(map);
+    }
+
+    @Override
     public int saveContacts(Contacts contacts) {
         return contactsMapper.insertContacts(contacts);
     }
@@ -56,6 +65,7 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public void removeContactsByIds(String[] ids) {
+        contactsActivityRelationMapper.deleteContactsActivityByContactsIds(ids);
         contactsRemarkMapper.deleteContactsRemarkByContactsIds(ids);
         contactsMapper.deleteContactsByIds(ids);
     }

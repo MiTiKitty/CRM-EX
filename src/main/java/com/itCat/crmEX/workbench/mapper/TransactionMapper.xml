@@ -35,7 +35,7 @@
     </resultMap>
     <select id="selectTransactionByCondition" parameterType="java.util.Map"
             resultMap="BaseTransactionMap">
-        select tt.id, tu.name as owner, tc.name as tcName, t.fullName as fullName, tt.name, tt.source, tt.stage
+        select tt.id, tu.name as owner, tc.name as tcName, t.fullName as fullName, tt.name, tt.source, tt.stage, tt.type
         from `tbl_transaction` tt
         join tbl_user tu on tt.owner = tu.id
         join tbl_customer tc on tt.customerId = tc.id
@@ -48,10 +48,10 @@
                 and tt.name like concat('%', #{name}, '%')
             </if>
             <if test="customer != null and customer != ''">
-                and tc.name like concat('%', #{customer}, '%')
+                and tc.name like concat('%', #{customerName}, '%')
             </if>
             <if test="fullName != null and fullName != ''">
-                and t.fullName like concat('%', #{fullName}, '%')
+                and t.fullName like concat('%', #{contactsName}, '%')
             </if>
             <if test="stage != null and stage != ''">
                 and tt.stage = #{stage}
@@ -80,10 +80,10 @@
                 and tt.name like concat('%', #{name}, '%')
             </if>
             <if test="customer != null and customer != ''">
-                and tc.name like concat('%', #{customer}, '%')
+                and tc.name like concat('%', #{customerName}, '%')
             </if>
             <if test="fullName != null and fullName != ''">
-                and t.fullName like concat('%', #{fullName}, '%')
+                and t.fullName like concat('%', #{contactsName}, '%')
             </if>
             <if test="stage != null and stage != ''">
                 and tt.stage = #{stage}

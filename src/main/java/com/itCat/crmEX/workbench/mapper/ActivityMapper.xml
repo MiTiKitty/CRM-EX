@@ -198,7 +198,7 @@
             where clueId = #{clueId}
         )
     </select>
-    <select id="selectActivityForClueRelationByContactsId" parameterType="java.lang.String"
+    <select id="selectActivityForContactsRelationByContactsId" parameterType="java.lang.String"
             resultType="com.itCat.crmEX.workbench.domain.Activity">
         select ta.id, ta.name, ta.startDate, ta.endDate, tu.name as owner
         from tbl_activity ta

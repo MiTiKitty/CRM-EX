@@ -295,7 +295,6 @@
                             "                    <td>"+obj.website+"</td>\n" +
                             "                </tr>";
                     });
-                    //展示查询到的市场活动列表
                     $("#customerList").html(htmlStr);
                     //设置全选按钮为为选中
                     $("#allSelectBox").prop("checked", false);

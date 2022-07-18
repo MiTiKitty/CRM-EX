@@ -431,6 +431,7 @@ public class ClueController {
     public Object createConvert(String clueId, String amountOfMoney, String name, String expectedClosingDate,
                                 String stage, String activityId, String type, String source, boolean isConvert,
                                 HttpSession session) {
+        System.out.println(isConvert);
         ResultObject resultObject = new ResultObject();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
 

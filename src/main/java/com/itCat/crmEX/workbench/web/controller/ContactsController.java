@@ -8,14 +8,8 @@ import com.itCat.crmEX.settings.domain.DictionaryValue;
 import com.itCat.crmEX.settings.domain.User;
 import com.itCat.crmEX.settings.service.DictionaryValueService;
 import com.itCat.crmEX.settings.service.UserService;
-import com.itCat.crmEX.workbench.domain.Activity;
-import com.itCat.crmEX.workbench.domain.Contacts;
-import com.itCat.crmEX.workbench.domain.ContactsActivityRelation;
-import com.itCat.crmEX.workbench.domain.ContactsRemark;
-import com.itCat.crmEX.workbench.service.ActivityService;
-import com.itCat.crmEX.workbench.service.ContactsActivityRelationService;
-import com.itCat.crmEX.workbench.service.ContactsRemarkService;
-import com.itCat.crmEX.workbench.service.ContactsService;
+import com.itCat.crmEX.workbench.domain.*;
+import com.itCat.crmEX.workbench.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +41,9 @@ public class ContactsController {
     @Autowired
     private ContactsActivityRelationService contactsActivityRelationService;
 
+    @Autowired
+    private TransactionService transactionService;
+
     @RequestMapping("/index.do")
     public String index(HttpServletRequest request) {
         commonContactsReady(request);
@@ -57,9 +54,13 @@ public class ContactsController {
     public String detail(String id, HttpServletRequest request) {
         Contacts contacts = contactsService.queryContactsForDetailById(id);
         List<ContactsRemark> contactsRemarkList = contactsRemarkService.queryContactsRemarkByContactsId(id);
+        List<Activity> activityList = activityService.queryActivityForContactsRelationByContactsId(id);
+        List<Transaction> transactionList = transactionService.queryTransactionByContactsId(id);
         commonContactsReady(request);
         request.setAttribute("contacts", contacts);
         request.setAttribute("contactsRemarkList", contactsRemarkList);
+        request.setAttribute("activityList", activityList);
+        request.setAttribute("transactionList", transactionList);
         return "workbench/contacts/detail";
     }
 
@@ -125,6 +126,7 @@ public class ContactsController {
             int result = contactsService.saveContacts(contacts);
             if (result > 0) {
                 resultObject.setCode(Constants.RESULT_SUCCESS_CODE);
+                resultObject.setData(contacts.getId());
             } else {
                 resultObject.setCode(Constants.RESULT_FAIL_CODE);
                 resultObject.setMessage("系统繁忙，请稍后重试...");
@@ -294,6 +296,18 @@ public class ContactsController {
     }
 
     /**
+     * 根据联系人id查找已与该联系人所关联的市场活动信息列表
+     *
+     * @param contactsId
+     * @return
+     */
+    @RequestMapping("/queryActivityByContactsId.do")
+    @ResponseBody
+    public Object queryActivityByContactsId(String contactsId){
+        return activityService.queryActivityForContactsRelationByContactsId(contactsId);
+    }
+
+    /**
      * 根据市场活动名称查询还未与该联系人相关联的市场活动
      *
      * @param name
@@ -375,7 +389,5 @@ public class ContactsController {
         }
         return resultObject;
     }
-
-
 
 }

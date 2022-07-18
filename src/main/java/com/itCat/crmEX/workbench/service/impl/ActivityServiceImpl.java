@@ -70,8 +70,8 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<Activity> queryActivityForClueRelationByContactsId(String contactsId) {
-        return activityMapper.selectActivityForClueRelationByContactsId(contactsId);
+    public List<Activity> queryActivityForContactsRelationByContactsId(String contactsId) {
+        return activityMapper.selectActivityForContactsRelationByContactsId(contactsId);
     }
 
     @Override

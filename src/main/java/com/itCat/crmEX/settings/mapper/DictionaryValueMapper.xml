@@ -20,7 +20,7 @@
         select `id`, `value`, `text`
         from `tbl_dictionary_value`
         where `typeCode` = #{typeCode}
-        order by orderNo desc
+        order by orderNo asc
     </select>
     <insert id="insertNewDictionaryValue" parameterType="com.itCat.crmEX.settings.domain.DictionaryValue">
         insert into `tbl_dictionary_value` (`id`, `value`, `text`, `orderNo`, `typeCode`)

@@ -2,6 +2,7 @@ package com.itCat.crmEX.workbench.service.impl;
 
 import com.itCat.crmEX.workbench.domain.Transaction;
 import com.itCat.crmEX.workbench.mapper.TransactionMapper;
+import com.itCat.crmEX.workbench.mapper.TransactionRemarkMapper;
 import com.itCat.crmEX.workbench.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private TransactionMapper transactionMapper;
+
+    @Autowired
+    private TransactionRemarkMapper transactionRemarkMapper;
 
     @Override
     public List<Transaction> queryTransactionByCondition(Map<String, Object> map) {
@@ -57,6 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void removeTransactionByIds(String[] ids) {
+        transactionRemarkMapper.deleteTransactionRemarkByTransactionIds(ids);
         transactionMapper.deleteTransactionByIds(ids);
     }
 }

@@ -49,6 +49,14 @@ public interface ContactsMapper {
     List<Contacts> selectContactsForCustomerDetailByCustomerId(String customerId);
 
     /**
+     * 根据联系人姓名模糊查找联系人
+     *
+     * @param map
+     * @return
+     */
+    List<Contacts> selectContactsByFullNameAndByCustomerId(Map<String, Object> map);
+
+    /**
      * 插入一条新的联系人信息
      *
      * @param contacts

@@ -44,6 +44,14 @@ public interface ContactsService {
      */
     Contacts queryContactsById(String id);
 
+    /**
+     * 根据联系人姓名模糊查找联系人
+     *
+     * @param map
+     * @return
+     */
+    List<Contacts> queryContactsByFullNameAndByCustomerId(Map<String, Object> map);
+
     int saveContacts(Contacts contacts);
 
     /**

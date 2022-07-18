@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itCat.crmEX.workbench.mapper.TransactionRemarkMapper">
+    <select id="selectAllTransactionByTransactionId" parameterType="java.lang.String" resultType="com.itCat.crmEX.workbench.domain.TransactionRemark">
+        select ttr.id,
+               tu1.name as notePerson,
+               noteContent,
+               noteTime,
+               tu2.name as editPerson,
+               ttr.editTime,
+               editFlag,
+               transactionId
+        from `tbl_transaction_remark` ttr
+                 join tbl_user tu1 on ttr.notePerson = tu1.id
+                 left outer join tbl_user tu2 on ttr.editPerson = tu2.id
+        where ttr.transactionId = #{transactionId}
+        order by ttr.noteTime asc
+    </select>
+    <insert id="insertTransactionRemark" parameterType="com.itCat.crmEX.workbench.domain.TransactionRemark">
+        insert into `tbl_transaction_remark`
+        (id, notePerson, noteContent, noteTime, editFlag, transactionId)
+        values
+        (#{id}, #{notePerson}, #{noteContent}, #{noteTime}, #{editFlag}, #{transactionId})
+    </insert>
     <insert id="insertTransactionRemarks" parameterType="com.itCat.crmEX.workbench.domain.TransactionRemark">
         insert into `tbl_transaction_remark`
         (id, notePerson, noteContent, noteTime, editFlag, transactionId)
@@ -9,4 +30,22 @@
             (#{r.id}, #{r.notePerson}, #{r.noteContent}, #{r.noteTime}, #{r.editFlag}, #{r.transactionId})
         </foreach>
     </insert>
+    <update id="updateTransactionRemarkById" parameterType="com.itCat.crmEX.workbench.domain.TransactionRemark">
+        update tbl_transaction_remark
+        set noteContent = #{noteContent},
+            editPerson  = #{editPerson},
+            editFlag    = #{editFlag},
+            editTime    = #{editTime}
+        where id = #{id}
+    </update>
+    <delete id="deleteTransactionRemarkById" parameterType="java.lang.String">
+        delete from tbl_transaction_remark where id = #{id}
+    </delete>
+    <delete id="deleteTransactionRemarkByTransactionIds" parameterType="java.lang.String">
+        delete from tbl_transaction_remark
+        where transactionId in
+        <foreach collection="array" item="transactionId" open="(" separator="," close=")">
+            #{transactionId}
+        </foreach>
+    </delete>
 </mapper>

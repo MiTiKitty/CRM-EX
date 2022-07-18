@@ -100,7 +100,7 @@ public interface ActivityService {
      * @param contactsId
      * @return
      */
-    List<Activity> queryActivityForClueRelationByContactsId(String contactsId);
+    List<Activity> queryActivityForContactsRelationByContactsId(String contactsId);
 
     /**
      * 根据市场活动名称模糊查询还未与联系人相关联的市场活动信息

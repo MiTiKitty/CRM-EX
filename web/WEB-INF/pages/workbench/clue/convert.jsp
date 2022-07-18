@@ -133,7 +133,7 @@
 
             //给转换按钮添加单击事件
             $("#convertBtn").click(function () {
-                const isCreateTransaction = $("#isCreateTransaction").prop("shecked");
+                const isCreateTransaction = $("#isCreateTransaction").prop("checked");
                 if (isCreateTransaction){
                     if (!isMoney || !isName || !isDate || !isActivity){
                         alert("表单填写有误！");
@@ -263,7 +263,7 @@
             </select>
         </div>
         <div class="form-group" style="width: 400px;position: relative; margin-left: 20px;">
-            <label for="stage">阶段</label>
+            <label for="stage">类型</label>
             <select id="type" class="form-control">
                 <c:forEach items="${requestScope.typeList}" var="s">
                     <option value="${s.value}">${s.value}</option>
@@ -271,7 +271,7 @@
             </select>
         </div>
         <div class="form-group" style="width: 400px;position: relative; margin-left: 20px;">
-            <label for="stage">阶段</label>
+            <label for="stage">来源</label>
             <select id="source" class="form-control">
                 <c:forEach items="${requestScope.sourceList}" var="s">
                     <option value="${s.value}">${s.value}</option>

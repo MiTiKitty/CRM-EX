@@ -8,11 +8,14 @@ import com.itCat.crmEX.settings.domain.DictionaryValue;
 import com.itCat.crmEX.settings.domain.User;
 import com.itCat.crmEX.settings.service.DictionaryValueService;
 import com.itCat.crmEX.settings.service.UserService;
+import com.itCat.crmEX.workbench.domain.Contacts;
 import com.itCat.crmEX.workbench.domain.Customer;
 import com.itCat.crmEX.workbench.domain.CustomerRemark;
+import com.itCat.crmEX.workbench.domain.Transaction;
 import com.itCat.crmEX.workbench.service.ContactsService;
 import com.itCat.crmEX.workbench.service.CustomerRemarkService;
 import com.itCat.crmEX.workbench.service.CustomerService;
+import com.itCat.crmEX.workbench.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +47,9 @@ public class CustomerController {
     @Autowired
     private ContactsService contactsService;
 
+    @Autowired
+    private TransactionService transactionService;
+
     @RequestMapping("/index.do")
     public String index(HttpServletRequest request) {
         commonCustomerReady(request);
@@ -54,9 +60,13 @@ public class CustomerController {
     public String detail(String id, HttpServletRequest request) {
         Customer customer = customerService.queryCustomerForDetailById(id);
         List<CustomerRemark> remarkList = customerRemarkService.queryAllCustomerRemarkByCustomerId(id);
+        List<Transaction> transactionList = transactionService.queryTransactionByCustomerId(id);
+        List<Contacts> contactsList = contactsService.queryContactsForCustomerDetailByCustomerId(id);
         commonCustomerReady(request);
         request.setAttribute("customer", customer);
         request.setAttribute("remarkList", remarkList);
+        request.setAttribute("transactionList", transactionList);
+        request.setAttribute("contactsList", contactsList);
         return "workbench/customer/detail";
     }
 
